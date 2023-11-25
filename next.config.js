@@ -1,4 +1,17 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+	env: {
+		DATABASE_URL: process.env.DATABASE_URL,
+	},
+	images: {
+		remotePatterns: [
+			{
+				port: "",
+				protocol: "https",
+				hostname: "uwsgvqbciuqqzknchcbe.supabase.co",
+			},
+		],
+	},
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

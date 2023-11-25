@@ -1,0 +1,19 @@
+"use client";
+
+import { safeUpsertKeyValueAction } from "@/lib/utils/actionUtils";
+import { z } from "zod";
+import AutoForm, { AutoFormSubmit } from "../ui/auto-form";
+import { homeSchema } from "@/lib/db/schema/home";
+
+export function HomeForm({ values }: { values?: z.infer<typeof homeSchema> }) {
+	return (
+		<AutoForm
+			values={values}
+			formSchema={homeSchema}
+			onSubmit={async (formData) => {
+				await safeUpsertKeyValueAction("home", homeSchema, formData);
+			}}>
+			<AutoFormSubmit>Salva impostazioni</AutoFormSubmit>
+		</AutoForm>
+	);
+}

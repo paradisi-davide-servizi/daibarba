@@ -1,0 +1,117 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "id": "c6ec714a-cb42-4985-a4cc-3401a2ed64f4",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "tables": {
+    "file": {
+      "name": "file",
+      "schema": "",
+      "columns": {
+        "storagePath": {
+          "name": "storagePath",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "metadata": {
+          "name": "metadata",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "keyValues": {
+      "name": "keyValues",
+      "schema": "",
+      "columns": {
+        "key": {
+          "name": "key",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "value": {
+          "name": "value",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "productions": {
+      "name": "productions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "synopsis": {
+          "name": "synopsis",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "imagePath": {
+          "name": "imagePath",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "productions_imagePath_file_storagePath_fk": {
+          "name": "productions_imagePath_file_storagePath_fk",
+          "tableFrom": "productions",
+          "tableTo": "file",
+          "columnsFrom": [
+            "imagePath"
+          ],
+          "columnsTo": [
+            "storagePath"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {
+    "fileType": {
+      "name": "fileType",
+      "values": {
+        "image": "image"
+      }
+    }
+  },
+  "schemas": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  }
+}
