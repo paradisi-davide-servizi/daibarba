@@ -11,8 +11,6 @@ import React, {
 	useState,
 } from "react";
 
-export const supabase = createClientComponentClient();
-
 const AuthContext = React.createContext<{ }>({
 	supabase: undefined,
 });

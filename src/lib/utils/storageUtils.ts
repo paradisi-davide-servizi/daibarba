@@ -1,9 +1,11 @@
+"use client"
+
 import { findOneFileAction, insertFileAction, upsertFileAction } from "../actions/file";
 import { callServerAction } from "./actionUtils";
 import { FileMetadata } from "../db/schema/file";
 import { generateBlurDataURL } from "./imageUtils";
 import fspath from "path";
-import { supabase } from "../components/auth/AuthProvider";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 export async function uploadFileToStorage(
 	storageName: string, file: File,
@@ -14,6 +16,7 @@ export async function uploadFileToStorage(
 	const fileName = fspath.basename(file.name);
 	const storagePath = fspath.join(...getStoragePath(fileName));
 
+	const supabase = createClientComponentClient();
 	const storage = supabase.storage.from(storageName);
 	const uploadFileResut = await storage.upload(storagePath, file, { upsert });
 

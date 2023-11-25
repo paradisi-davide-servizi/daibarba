@@ -1,8 +1,6 @@
 "use server"
 
-import { eq } from "drizzle-orm";
-import { authAction, action } from ".";
-import { fileSchema, files } from "../db/schema/file"
+import { files } from "../db/schema/file";
 import { getCRUDActions } from "./crud";
 import { z } from "zod";
 

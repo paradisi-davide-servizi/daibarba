@@ -11,11 +11,11 @@ const baseMetadata = z.object({
     mimeType: z.string(),
 })
 
-const unknownMetadataSchema = baseMetadata.extend({ 
+const unknownMetadataSchema = baseMetadata.extend({
     fileType: z.literal("unknown"),
 });
 
-const imageFileMetadataSchema =  baseMetadata.extend({
+const imageFileMetadataSchema = baseMetadata.extend({
     fileType: z.literal("image"),
     alt: z.string(),
     width: z.number().min(1),
@@ -43,14 +43,8 @@ export const files = pgTable("file", {
     metadata: json("metadata").$type<FileMetadata>(),
 });
 
-export const fileSchema = createSelectSchema(files, {
-    storagePath: (schema) => schema.storagePath.min(1, "min 1 chars"),
+const fileSchema = createSelectSchema(files, {
     metadata: fileMetadataSchema
-});
-
-export const fileFormSchema = fileSchema.extend({
-    source: z.instanceof(File)
-        .refine(file => file.size <= MAX_FILE_SIZE, "Max size is 50mb")
 });
 
 export type StorageFile = z.infer<typeof fileSchema>;
