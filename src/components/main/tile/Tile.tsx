@@ -36,8 +36,7 @@ export function Tile({
 			</h2>
 			{image && (
 				<StorageImage
-					width={500}
-					height={500}
+					fill
 					image={image}
 					className=" w-full h-full group-hover:scale-110 transition-all brightness-75 object-cover"
 				/>
