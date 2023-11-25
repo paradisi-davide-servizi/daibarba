@@ -69,13 +69,13 @@ export default async function Home() {
 				</div>
 			</Container>
 
-			<Container className=" bg-accent-foreground text-white">
+			{/* <Container className=" bg-accent-foreground text-white">
 				<div className="py-16">ciao</div>
 			</Container>
 
 			<Container className="">
 				<div className="py-16">ciao</div>
-			</Container>
+			</Container> */}
 
 		</main>
 	);

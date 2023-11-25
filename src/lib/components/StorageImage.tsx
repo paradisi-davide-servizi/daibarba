@@ -1,9 +1,12 @@
 import React from "react";
-import { getSignedUrlAction } from "../actions/storage";
 import Image from "next/image";
 import { StorageFile } from "../db/schema/file";
 import { callServerAction } from "../utils/actionUtils";
 import { findOneFileAction } from "../actions/file";
+
+function getPublicUrl(storageName: string, storagePath: string) {
+	return new URL(storagePath, `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${storageName}/`);
+}
 
 export async function StorageImage({
 	image,
@@ -38,12 +41,8 @@ export async function StorageImage({
 	const metadata = imageFile?.metadata;
 	if (metadata?.fileType !== "image") return <div>Immagine non trovata</div>;
 
-	const publicUrl = await callServerAction(getSignedUrlAction, {
-		storagePath: imageFile.storagePath,
-		storageName: image.storageName,
-	});
-
-	if (!publicUrl) return <div>Immagine non trovata</div>;
+	const publicUrl = getPublicUrl(image.storageName, imageFile.storagePath);
+	console.log(publicUrl)
 
 	return (
 		<Image
