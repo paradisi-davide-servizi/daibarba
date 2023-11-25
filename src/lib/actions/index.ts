@@ -8,7 +8,6 @@ import { db } from "../db";
 
 export const action = createSafeActionClient({
 	async middleware() {
-		// const supabase = createClientComponentClient();
 		return { db };
 	},
 });
