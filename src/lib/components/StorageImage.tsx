@@ -38,18 +38,18 @@ export async function StorageImage({
 	const metadata = imageFile?.metadata;
 	if (metadata?.fileType !== "image") return <div>Immagine non trovata</div>;
 
-	const signedUrl = await callServerAction(getSignedUrlAction, {
+	const publicUrl = await callServerAction(getSignedUrlAction, {
 		storagePath: imageFile.storagePath,
 		storageName: image.storageName,
 	});
 
-	if (!signedUrl) return <div>Immagine non trovata</div>;
+	if (!publicUrl) return <div>Immagine non trovata</div>;
 
 	return (
 		<Image
 			placeholder="blur"
 			alt={metadata.alt}
-			src={signedUrl}
+			src={publicUrl.href}
 			className={className}
 			blurDataURL={metadata.blurData}
 			width={width || metadata.width}

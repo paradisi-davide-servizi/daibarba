@@ -10,7 +10,5 @@ const getSignedUrlSchema = z.object({
 
 export const getSignedUrlAction = action(getSignedUrlSchema, async (input, ctx) => {
     const { storageName, storagePath } = getSignedUrlSchema.parse(input);
-    const storage = ctx.supabase.storage.from(storageName);
-    const { data: { publicUrl } } = storage.getPublicUrl(storagePath);
-    return publicUrl;
+    return new URL(storagePath, `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${storageName}`);
 });
