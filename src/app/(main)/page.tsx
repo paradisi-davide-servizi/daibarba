@@ -29,6 +29,7 @@ export default async function Home() {
 			<Container className=" min-h-screen">
 				<div className="grid grid-cols-1 gap-8 md:grid-cols-3">
 					<Tile
+						priority
 						href={"/about"}
 						label="Dai Barba!"
 						initialOpacity={1}
@@ -76,7 +77,6 @@ export default async function Home() {
 			<Container className="">
 				<div className="py-16">ciao</div>
 			</Container> */}
-
 		</main>
 	);
 }

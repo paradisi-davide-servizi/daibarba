@@ -9,11 +9,13 @@ import TileAnimation from "./TileAnimation";
 export function Tile({
 	label,
 	image,
+	priority,
 	className,
 	initialOpacity,
 	...props
 }: {
 	label: string;
+	priority?:boolean;
 	initialOpacity?: number;
 	image?: {
 		storageName: string;
@@ -38,6 +40,7 @@ export function Tile({
 				<StorageImage
 					fill
 					image={image}
+					priority={priority}
 					className=" w-full h-full group-hover:scale-110 transition-all brightness-75 object-cover"
 				/>
 			)}
