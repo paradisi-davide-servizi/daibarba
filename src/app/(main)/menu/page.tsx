@@ -1,6 +1,6 @@
 import { Tile } from "@/components/main/tile/Tile";
 import Menu from "@/components/main/menu/Menu";
-import Container from "@/lib/components/Container";
+import { Container } from "@/lib/components/Container";
 import { menuSchema } from "@/lib/db/schema/menu";
 import { safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
 import React from "react";
@@ -14,10 +14,9 @@ export default async function MenuPage() {
 	const menu = await safeFindOneKeyValueAction("menu", menuSchema);
 	return (
 		<main>
-			<ImageBanner
-				label="menù alla carta"
-				imageSource={menu?.bannerImage}
-			/>
+			<ImageBanner imageSource={menu?.bannerImage}>
+				menù alla carta
+			</ImageBanner>
 			<Container>
 				<Menu menu={menu} />
 			</Container>

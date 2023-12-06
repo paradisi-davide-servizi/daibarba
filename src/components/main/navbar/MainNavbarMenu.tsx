@@ -8,39 +8,36 @@ import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { socialSchema, telephoneNumberSchema } from "@/lib/db/schema/contacts";
 import { z } from "zod";
+import { StorageImage } from "@/lib/components/StorageImage";
 
 export function Navbar({
 	logo,
-    isOpen,
+	isOpen,
 	children,
 	telephone,
 	className,
-    setIsOpen,
+	setIsOpen,
 }: {
-    isOpen:boolean;
-	logo?: string;
+	isOpen: boolean;
+	logo?: ReactNode;
 	children?: ReactNode;
 	className?: string;
 	telephone?: {
 		showInNavbar: boolean;
 		number?: z.infer<typeof telephoneNumberSchema>;
 	};
-    setIsOpen:(isOpen:(value:boolean) => boolean) => void;
+	setIsOpen: (isOpen: (value: boolean) => boolean) => void;
 }) {
-
 	const hamburgerLine = `h-1 w-8 my-1 bg-stone-800 transition ease transform duration-300`;
 
 	return (
-		<div
-			className={cn(
-				"flex-row items-center justify-between z-50",
-				className
-			)}>
-			{logo && <Image alt="logo" src={logo} height={45} width={45} />}
+		<div className={cn("flex-row items-center justify-between", className)}>
+			<Link href={"/"}>{logo}</Link>
 			<div className=" flex flex-row items-center gap-x-4">
 				{telephone?.showInNavbar && telephone.number && (
-					<Link href={`tel:${telephone.number.prefix}${telephone.number.number}`}>
-						<FaPhone size={25}/>
+					<Link
+						href={`tel:${telephone.number.prefix}${telephone.number.number}`}>
+						<FaPhone size={25} />
 					</Link>
 				)}
 				<button
@@ -65,7 +62,7 @@ export function Navbar({
 			</div>
 			<div
 				className={cn(
-					"fixed top-16 right-0 h-full w-full translate-x-full overflow-y-auto overscroll-y-none transition duration-500",
+					"fixed top-24 right-0 h-full w-full translate-x-full overflow-y-auto overscroll-y-none transition duration-500 z-50",
 					isOpen ? "translate-x-0" : ""
 				)}>
 				{children}

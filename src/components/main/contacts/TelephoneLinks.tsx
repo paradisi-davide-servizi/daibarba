@@ -1,6 +1,7 @@
 import { telephoneNumberSchema } from "@/lib/db/schema/contacts";
 import Link from "next/link";
 import React from "react";
+import { FaPhone } from "react-icons/fa";
 import { z } from "zod";
 
 export function TelephoneNumberLink({
@@ -9,7 +10,8 @@ export function TelephoneNumberLink({
 	telephoneNumber: z.infer<typeof telephoneNumberSchema>;
 }) {
 	return (
-		<p>
+		<p className=" flex flex-row items-center gap-x-2">
+			<FaPhone/>	
 			{telephoneNumber.label ? `${telephoneNumber.label}: ` : ""}
 			<Link
 				href={`tel:${telephoneNumber.prefix} ${telephoneNumber.number}`}

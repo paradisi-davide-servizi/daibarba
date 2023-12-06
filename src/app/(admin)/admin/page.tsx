@@ -1,4 +1,4 @@
-import Container from "@/lib/components/Container";
+import { Container }from "@/lib/components/Container";
 import StyledLink from "@/lib/components/StyledLink";
 import React from "react";
 
@@ -10,9 +10,6 @@ export default function Admin() {
 					Impostazioni del sito
 				</StyledLink>
 				<StyledLink href={"/admin/settings/home"}>Home</StyledLink>
-				<StyledLink href={"/admin/settings/about"}>
-					Chi siamo
-				</StyledLink>
 				<StyledLink href={"/admin/settings/contacts"}>
 					Contatti
 				</StyledLink>
@@ -21,6 +18,9 @@ export default function Admin() {
 				</StyledLink>
 				<StyledLink href={"/admin/settings/todays-menu"}>
 					Menù del giorno
+				</StyledLink>
+				<StyledLink href={"/admin/settings/special-menu"}>
+					Menù speciale
 				</StyledLink>
 				<StyledLink href={"/admin/upload"}>
 					Carica immagine

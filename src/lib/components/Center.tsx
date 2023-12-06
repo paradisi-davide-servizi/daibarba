@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { cn } from "../utils";
 
-export default function HeroSection({
+export default function Center({
 	children,
 	className,
 }: {
@@ -9,7 +9,11 @@ export default function HeroSection({
 	className?: string;
 }) {
 	return (
-		<div className={cn("relative w-full flex flex-col items-center justify-center", className)}>
+		<div
+			className={cn(
+				"w-full h-full flex flex-col items-center justify-center",
+				className
+			)}>
 			{children}
 		</div>
 	);

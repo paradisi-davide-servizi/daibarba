@@ -8,21 +8,14 @@ export function Timetable({
 	timetable: z.infer<typeof timetableSchema>;
 }) {
 	return (
-		<div>
+		<>
 			<div>{timetable.label}:</div>
 			<div className=" flex flex-row gap-x-2">
-				{timetable.timeIntervals.map((ti, i) => (
-					<>
-						<div key={i} className=" font-semibold">
-							{ti.startTime}-{ti.endTime}
-						</div>
-						<div className=" font-semibold">
-							{i < timetable.timeIntervals.length - 1 ? "|" : ""}
-						</div>
-					</>
-				))}
+				<div className=" font-semibold">
+					{timetable.timeIntervals.map(i => `${i.startTime}-${i.endTime}`).join(" | ")}
+				</div>
 			</div>
-		</div>
+		</>
 	);
 }
 

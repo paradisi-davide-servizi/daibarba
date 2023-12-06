@@ -11,7 +11,7 @@ export const signInAction = action(signInSchema, async (input, ctx) => {
     const supabase = createServerActionClient({ cookies });
     const { error } = await supabase.auth.signInWithPassword(data);
     if (error) {
-        console.error(error.message);
+        throw error;
     }
     redirect("/admin");
 });
@@ -21,7 +21,7 @@ export const signUpAction = action(signUpSchema, async (input, ctx) => {
     const supabase = createServerActionClient({ cookies });
     const { error } = await supabase.auth.signUp(data);
     if (error) {
-        console.error(error.message);
+        throw error;
     }
     redirect("/signin");
 });
@@ -29,7 +29,7 @@ export const signUpAction = action(signUpSchema, async (input, ctx) => {
 export const signOutAction = authAction(signOutSchema, async (input, ctx) => {
     const { error } = await ctx.supabase.auth.signOut(input);
     if (error) {
-        console.error(error.message);
+        throw error;
     }
     redirect("/");
 });

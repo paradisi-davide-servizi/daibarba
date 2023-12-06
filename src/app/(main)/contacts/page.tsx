@@ -1,4 +1,4 @@
-import Container from "@/lib/components/Container";
+import { Container } from "@/lib/components/Container";
 import { safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
 import React from "react";
 import { contactsSchema } from "@/lib/db/schema/contacts";
@@ -17,7 +17,9 @@ export default async function ContactsPage() {
 	);
 	return (
 		<main>
-			<ImageBanner label="contatti" imageSource={contacts?.bannerImage} />
+			<ImageBanner imageSource={contacts?.bannerImage}>
+				contatti
+			</ImageBanner>
 			<Container className=" py-20">
 				<div className=" grid grid-cols-1 md:grid-cols-2 gap-8">
 					<div className=" order-1 md:order-2 flex flex-col gap-y-4">

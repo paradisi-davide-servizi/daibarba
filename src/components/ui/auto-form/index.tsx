@@ -1,8 +1,8 @@
 "use client";
-import React from "react";
+import React, { ReactNode } from "react";
 import { z } from "zod";
 import { Form } from "../form";
-import { DefaultValues, useForm } from "react-hook-form";
+import { DefaultValues, useForm, useFormContext } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../button";
@@ -18,8 +18,9 @@ import AutoFormObject from "./fields/object";
 import { useToast } from "../use-toast";
 
 export function AutoFormSubmit({ children }: { children?: React.ReactNode }) {
+	const { formState } = useFormContext();
 	return (
-		<Button type="submit" className=" w-full">
+		<Button disabled={formState.isSubmitting} type="submit" className=" w-full">
 			{children ?? "Submit"}
 		</Button>
 	);
@@ -39,7 +40,7 @@ function AutoForm<SchemaType extends z.AnyZodObject>({
 	values?: Partial<z.infer<SchemaType>>;
 	onValuesChange?: (values: Partial<z.infer<SchemaType>>) => void;
 	onParsedValuesChange?: (values: Partial<z.infer<SchemaType>>) => void;
-	onSubmit?: (values: z.infer<SchemaType>) => void;
+	onSubmit?: (values: z.infer<SchemaType>) => Promise<void>;
 	fieldConfig?: FieldConfig<SchemaType>;
 	children?: React.ReactNode;
 	className?: string;
@@ -54,10 +55,32 @@ function AutoForm<SchemaType extends z.AnyZodObject>({
 		values: valuesProp,
 	});
 
-	function onSubmit(values: z.infer<typeof formSchema>) {
+	async function onSubmit(values: z.infer<typeof formSchema>) {
 		const parsedValues = formSchema.safeParse(values);
-		if (parsedValues.success) {
-			onSubmitProp?.(parsedValues.data);
+		if (!parsedValues.success) {
+			errorToast(parsedValues.error);
+			return;
+		}
+
+		try {
+			await onSubmitProp?.(parsedValues.data);
+		} catch (error) {
+			errorToast(error);
+			return;
+		}
+
+		toast({ title: "Impostazioni salvate" });
+
+		function errorToast(error: any) {
+			let message;
+			if (error instanceof Error) message = error.message;
+			else if (error instanceof z.ZodError) message = error.message;
+			else message = String(error);
+			toast({
+				title: "Errore",
+				description: message,
+				variant: "destructive",
+			});
 		}
 	}
 
@@ -67,19 +90,7 @@ function AutoForm<SchemaType extends z.AnyZodObject>({
 		<Form {...form}>
 			<form
 				onSubmit={async (e) => {
-					try {
-						await form.handleSubmit(onSubmit)(e);
-						toast({ title: "Impostazioni salvate" });
-					} catch (error) {
-						let message;
-						if (error instanceof Error) message = error.message;
-						else message = String(error);
-						toast({
-							title: "Errore",
-							description: message,
-							variant: "destructive",
-						});
-					}
+					await form.handleSubmit(onSubmit)(e);
 				}}
 				onChange={() => {
 					const values = form.getValues();
@@ -95,7 +106,6 @@ function AutoForm<SchemaType extends z.AnyZodObject>({
 					form={form}
 					fieldConfig={fieldConfig}
 				/>
-
 				{children}
 			</form>
 		</Form>

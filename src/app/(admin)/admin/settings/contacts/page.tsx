@@ -1,4 +1,4 @@
-import Container from "@/lib/components/Container";
+import { Container }from "@/lib/components/Container";
 import React from "react";
 import { safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
 import { contactsSchema } from "@/lib/db/schema/contacts";

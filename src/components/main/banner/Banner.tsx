@@ -1,19 +1,24 @@
-import React, { ReactNode } from "react";
+import React, { MutableRefObject, ReactNode, RefObject } from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "@/lib/utils";
 
-export function BannerCenter({ children }: { children?: ReactNode }) {
-	return (
-		<div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-			{children}
-		</div>
-	);
-}
+const bannerVariants = cva("relative w-full overflow-hidden", {
+	variants: {
+		size: {
+			default: "min-h-[20rem]",
+			fullScreen: "h-[100vh]",
+			hero: "md:h-[calc(100vh-12rem)] h-[calc(100vh-8rem)]",
+		},
+	},
+	defaultVariants: {
+		size: "default",
+	},
+});
+export type BannerVariants = VariantProps<typeof bannerVariants>;
 
-export function BannerFull({ children }: { children?: ReactNode }) {
-	return (
-		<div className="absolute top-0 left-0 h-full w-full">{children}</div>
-	);
-}
-
-export function Banner({ children }: { children?: ReactNode }) {
-	return <div className=" relative w-full h-80 overflow-hidden">{children}</div>;
+export function Banner({
+	children,
+	size,
+}: { children?: ReactNode } & BannerVariants) {
+	return <div className={bannerVariants({ size })}>{children}</div>;
 }

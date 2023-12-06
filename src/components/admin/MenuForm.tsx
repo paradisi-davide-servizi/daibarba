@@ -10,7 +10,7 @@ export function MenuForm({
 	storeKey,
 	values,
 }: {
-	storeKey: "menu" | "todays-menu";
+	storeKey: "menu" | "todays-menu" | "special-menu";
 	values?: z.infer<typeof menuSchema>;
 }) {
 	return (

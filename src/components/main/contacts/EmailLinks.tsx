@@ -1,11 +1,13 @@
 import { emailSchema } from "@/lib/db/schema/contacts";
 import Link from "next/link";
 import React from "react";
+import { FaEnvelope } from "react-icons/fa";
 import { z } from "zod";
 
 export function EmailLink({ email }: { email: z.infer<typeof emailSchema> }) {
 	return (
-		<p>
+		<p className=" flex flex-row items-center gap-x-2">
+			<FaEnvelope />
 			{email.label ? `${email.label}: ` : ""}
 			<Link href={`mailto:${email.email}`} className=" underline">
 				{email.email}

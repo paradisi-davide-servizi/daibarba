@@ -13,8 +13,17 @@ export async function uploadFileToStorage(
 	getMetadata: (file: File) => Promise<FileMetadata>,
 	upsert: boolean) {
 
+	const metadata = await getMetadata(file);
+	if (metadata.fileType === "unknown")
+		throw new Error("Unknown metadata");
+
 	const fileName = fspath.basename(file.name);
 	const storagePath = fspath.join(...getStoragePath(fileName));
+
+	await callServerAction(upsertFileAction, {
+		storagePath,
+		metadata,
+	})
 
 	const supabase = createClientComponentClient();
 	const storage = supabase.storage.from(storageName);
@@ -24,13 +33,6 @@ export async function uploadFileToStorage(
 		throw uploadFileResut.error;
 	if (!uploadFileResut.data)
 		throw new Error("File not uploaded");
-
-	const metadata = await getMetadata(file);
-
-	await callServerAction(upsertFileAction, {
-		storagePath,
-		metadata,
-	})
 
 	return storagePath;
 }

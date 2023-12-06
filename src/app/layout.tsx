@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Lora } from "next/font/google";
+import { Inter, Lora } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/lib/components/ThemeProvider";
 import { cn } from "@/lib/utils";
 import AuthProvider from "@/lib/components/auth/AuthProvider";
 import { Toaster } from "@/components/ui/toaster";
 
-const inter = Lora({ subsets: ["latin"] });
+const inter = Lora({ subsets: ["latin"], weight: "variable" });
 
 export const metadata: Metadata = {
 	title: "Create Next App",

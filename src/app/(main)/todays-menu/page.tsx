@@ -1,6 +1,6 @@
 import { Tile } from "@/components/main/tile/Tile";
 import Menu from "@/components/main/menu/Menu";
-import Container from "@/lib/components/Container";
+import { Container } from "@/lib/components/Container";
 import { menuSchema } from "@/lib/db/schema/menu";
 import { safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
 import React from "react";
@@ -17,16 +17,16 @@ export default async function TodaysMenuPage() {
 	);
 	return (
 		<main>
-			<ImageBanner
-				label="menù del giorno"
-				imageSource={todaysMenu?.bannerImage}
-			/>
+			<ImageBanner imageSource={todaysMenu?.bannerImage}>
+				{todaysMenu?.title}
+			</ImageBanner>
 			<Container>
 				<Menu menu={todaysMenu} />
 			</Container>
 			<Container>
 				<ReservationTile />
 			</Container>
+			<ImageBanner imageSource={todaysMenu?.bannerImage} />
 		</main>
 	);
 }

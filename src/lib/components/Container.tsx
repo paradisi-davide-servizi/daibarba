@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { cn } from "../utils";
 
-export default function Container({
+export function Container({
 	children,
 	className,
 }: {
@@ -11,10 +11,10 @@ export default function Container({
 	return (
 		<div
 			className={cn(
-				"flex flex-col items-center p-8",
+				"flex flex-col items-center p-8 w-full h-full",
 				className
 			)}>
-			<div className="max-w-5xl w-full h-full">
+			<div className="max-w-4xl w-full h-full">
 				{children}
 			</div>
 		</div>
