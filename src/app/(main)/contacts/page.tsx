@@ -3,7 +3,6 @@ import { safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
 import React from "react";
 import { contactsSchema } from "@/lib/db/schema/contacts";
 import { ImageBanner } from "@/components/main/banner/ImageBanner";
-import GoogleMapBanner from "@/components/main/banner/GoogleMapBanner";
 import GoogleMap from "@/components/main/GoogleMap";
 import { EmailLinks } from "@/components/main/contacts/EmailLinks";
 import { TelephoneNumberLinks } from "@/components/main/contacts/TelephoneLinks";
