@@ -5,7 +5,7 @@ import { safeUpsertKeyValueAction } from "@/lib/utils/actionUtils";
 import { z } from "zod";
 import AutoForm, { AutoFormSubmit } from "../ui/auto-form";
 import { StorageFile } from "@/lib/db/schema/file";
-import { updateSiteAction } from "@/actions/site";
+import { updateSiteAction, updateSiteSchema } from "@/actions/site";
 
 export function SiteForm({
 	values,
@@ -16,8 +16,8 @@ export function SiteForm({
 }) {
 	return (
 		<AutoForm
-			values={values}
-			formSchema={siteSchema}
+			values={{...values, revalidatePath:""}}
+			formSchema={updateSiteSchema}
 			onSubmit={async (formData) => {
 				await updateSiteAction(formData);
 			}}

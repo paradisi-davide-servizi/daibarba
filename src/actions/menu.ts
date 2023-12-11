@@ -13,9 +13,9 @@ const updateMenuShema = z.object({
 
 export const updateMenuAction = authAction(updateMenuShema, async ({ menu, menuType }) => {
     const result = await safeUpsertKeyValueAction(menuType, menuSchema, menu);
-    if(result) {    
-        revalidatePath(`/(admin)/admin/settings/menu/${menuType}`, "page");
-        revalidatePath("/(main)", "layout");
-        revalidatePath("/(main)/", "page");
-    }
+    // if(result) {    
+    //     revalidatePath(`/(admin)/admin/settings/menu/${menuType}`, "page");
+    //     revalidatePath("/(main)", "layout");
+    //     revalidatePath("/(main)/", "page");
+    // }
 });
