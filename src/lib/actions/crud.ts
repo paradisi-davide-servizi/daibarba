@@ -28,15 +28,8 @@ export function getCRUDActions<
 
     const keySchema = z.object(tableKeySchema)
 
-    const optionsSchema = z.object({
-        revalidate: z.union([z.literal(false), z.number()]).optional()
-    });
-
-    const findOneSchema = keySchema.extend({
-        options: optionsSchema.optional()
-    });
-
-    const findManySchema = optionsSchema;
+    const findOneSchema = keySchema;
+    const findManySchema = z.object({});
 
     return {
         insert: authAction(insertSchema, async (input, ctx) => {
@@ -101,26 +94,17 @@ export function getCRUDActions<
         findOne: action(findOneSchema, async (input, ctx) => {
             const data = findOneSchema.parse(input);
             const key = (data as any)[tableKey];
-            const revalidate = data.options?.revalidate || false;
-            const findOneCached = unstable_cache(async () => {
-                const rows = await ctx.db
-                    .select()
-                    .from(table)
-                    .where(eq(keyColumn, key));
-                return rows[0];
-            }, [`${tableName}/${key}`], { tags: [`${tableName}/${key}`], revalidate });
-            return findOneCached();
+            const rows = await ctx.db
+                .select()
+                .from(table)
+                .where(eq(keyColumn, key));
+            return rows[0];
         }),
 
         findMany: action(findManySchema, (input, ctx) => {
-            const data = findManySchema.parse(input);
-            const revalidate = data.revalidate || false;
-            const findManyCached = unstable_cache(async () => {
-                return ctx.db
-                    .select()
-                    .from(table);
-            }, [tableName], { tags: [tableName], revalidate });
-            return findManyCached();
+            return ctx.db
+                .select()
+                .from(table);
         }),
     }
 }

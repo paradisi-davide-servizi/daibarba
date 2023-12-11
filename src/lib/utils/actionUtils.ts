@@ -3,6 +3,7 @@ import { z } from "zod";
 import { findOneFileAction } from "../actions/file";
 import { findOneKeyValueAction, upsertKeyValueAction } from "../actions/keyValue";
 import { unstable_cache } from "next/cache";
+import { keyValues } from "../db/schema/keyValue";
 
 export async function callServerAction<Schema extends z.ZodTypeAny, Data>(serverAction: SafeAction<Schema, Data>, input: z.input<Schema>) {
     const result = await serverAction(input);
@@ -13,8 +14,8 @@ export async function callServerAction<Schema extends z.ZodTypeAny, Data>(server
     return result?.data;
 }
 
-export async function safeFindOneKeyValueAction<Schema extends z.ZodTypeAny>(key: string, schema: Schema, options?: { revalidate?:false | number }) {
-    const kvp = await callServerAction(findOneKeyValueAction, { key, options });
+export async function safeFindOneKeyValueAction<Schema extends z.ZodTypeAny>(key: string, schema: Schema) {
+    const kvp = await callServerAction(findOneKeyValueAction, { key });
     const value = schema.safeParse(kvp?.value);
     return value.success ? value.data as z.infer<Schema> : undefined;
 }
@@ -26,4 +27,9 @@ export async function safeUpsertKeyValueAction<Schema extends z.ZodTypeAny>(key:
         return kvp?.key ? true : false;
     }
     return false;
+}
+
+export function cacheFindOneKeyValue<Schema extends z.ZodTypeAny>(key: string, schema: Schema, revalidate: false | number) {
+    const tableName: typeof keyValues["_"]["name"] = "keyValues";
+    return unstable_cache(() => safeFindOneKeyValueAction(key, schema), [`${tableName}/${key}`], { tags: [`${tableName}/${key}`], revalidate });
 }

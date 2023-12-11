@@ -26,3 +26,7 @@ export const updateMenuSchema = z.object({
     menu: menuSchema,
     menuType: z.enum(menuTypeArray),
 })
+
+export const findMenuSchema = z.object({
+    menuType: z.enum(menuTypeArray),
+})
