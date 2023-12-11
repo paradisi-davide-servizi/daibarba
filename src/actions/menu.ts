@@ -13,7 +13,8 @@ const updateMenuShema = z.object({
 
 export const updateMenuAction = authAction(updateMenuShema, async ({ menu, menuType }) => {
     const result = await safeUpsertKeyValueAction(menuType, menuSchema, menu);
-    if(result) {
-        revalidatePath("/", "layout");
+    if(result) {    
+        revalidatePath(`/admin/settings/menu/${menuType}`, "page");
+        revalidatePath("/(main)", "layout");
     }
 });
