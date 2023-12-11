@@ -1,4 +1,3 @@
-import { siteSchema } from "@/lib/db/schema/site";
 import React from "react";
 import { Tile } from "./Tile";
 import { VariantProps, cva } from "class-variance-authority";

@@ -22,7 +22,7 @@ export default function Admin() {
 				<StyledLink href={"/admin/settings/contacts"}>
 					Contatti
 				</StyledLink>
-				<StyledLink href={"/admin/upload"}>Carica immagine</StyledLink>
+				<StyledLink href={"/admin/upload"}>Carica file</StyledLink>
 				<SignOutForm/>
 			</div>
 		</Container>

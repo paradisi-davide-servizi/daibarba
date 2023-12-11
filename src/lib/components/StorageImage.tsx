@@ -4,7 +4,7 @@ import { StorageFile } from "../db/schema/file";
 import { callServerAction } from "../utils/actionUtils";
 import { findOneFileAction } from "../actions/file";
 
-function getPublicUrl(storageName: string, storagePath: string) {
+export function getPublicUrl(storageName: string, storagePath: string) {
 	return new URL(
 		storagePath,
 		`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${storageName}/`

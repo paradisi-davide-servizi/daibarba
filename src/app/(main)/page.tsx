@@ -31,7 +31,7 @@ import { ReservationTile } from "@/components/main/tile/ReservationTile";
 function HeroSection({ home }: { home?: z.infer<typeof homeSchema> }) {
 	return (
 		<>
-			<ImageBanner size={"hero"} imageSource={home?.hero.image}>
+			<ImageBanner size={"hero"} imageSource={home?.hero.image} priority>
 				<Center>
 					<div className=" flex flex-col gap-2 uppercase tracking-widest text-center items-center justify-center">
 						{home?.hero.prefix && (

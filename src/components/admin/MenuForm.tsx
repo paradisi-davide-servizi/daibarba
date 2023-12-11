@@ -1,5 +1,6 @@
 "use client";
 
+import { updateMenuAction } from "@/actions/menu";
 import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
 import { StorageFile, fileMetadataSchema } from "@/lib/db/schema/file";
 import { MenuType, menuSchema } from "@/lib/db/schema/menu";
@@ -7,11 +8,11 @@ import { safeUpsertKeyValueAction } from "@/lib/utils/actionUtils";
 import { z } from "zod";
 
 export function MenuForm({
-	storeKey,
+	menuType,
 	values,
 	images,
 }: {
-	storeKey: MenuType;
+	menuType: MenuType;
 	images: StorageFile[];
 	values?: z.infer<typeof menuSchema>;
 }) {
@@ -20,7 +21,10 @@ export function MenuForm({
 			values={values}
 			formSchema={menuSchema}
 			onSubmit={async (formData) => {
-				await safeUpsertKeyValueAction(storeKey, menuSchema, formData);
+				await updateMenuAction({
+					menuType,
+					menu: formData,
+				});
 			}}
 			fieldConfig={{
 				bannerImage: {

@@ -2,7 +2,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Container }from "@/lib/components/Container";
 import { siteSchema } from "@/lib/db/schema/site";
 import { SiteForm } from "@/components/admin/SiteForm";
-import { UploadImageForm } from "@/components/admin/UploadImageForm";
+import { UploadFileForm } from "@/components/admin/UploadFileForm";
 
 export default async function UploadPage() {
 	return (
@@ -10,10 +10,10 @@ export default async function UploadPage() {
 			<Container>
 				<Card>
 					<CardHeader>
-						<CardTitle>Carica Immagine</CardTitle>
+						<CardTitle>Carica File</CardTitle>
 					</CardHeader>
 					<CardContent>
-						<UploadImageForm/>
+						<UploadFileForm/>
 					</CardContent>
 				</Card>
 			</Container>

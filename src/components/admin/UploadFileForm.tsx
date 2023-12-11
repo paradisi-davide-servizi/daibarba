@@ -3,7 +3,7 @@
 import React from "react";
 import { z } from "zod";
 import AutoForm, { AutoFormSubmit } from "../ui/auto-form";
-import { uploadImageToStorage } from "@/lib/utils/storageUtils";
+import { uploadFileToStorage } from "@/lib/utils/storageUtils";
 
 const uploadImageSchema = z.object({
 	image: z
@@ -12,14 +12,14 @@ const uploadImageSchema = z.object({
 		.optional(),
 });
 
-export function UploadImageForm() {
+export function UploadFileForm() {
 	return (
 		<AutoForm
 			formSchema={uploadImageSchema}
 			onSubmit={async (formData) => {
 				const image = formData.image?.[0];
 				if (!image) throw new Error("Immagine non selezionata");
-				await uploadImageToStorage(
+				await uploadFileToStorage(
 					"daibarba",
 					image,
 					(fileName) => ["images", fileName],

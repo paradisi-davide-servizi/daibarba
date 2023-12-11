@@ -1,14 +1,16 @@
 import { Container }from "@/lib/components/Container";
-import React from "react";
+import React, { cache } from "react";
 import { contactsSchema } from "@/lib/db/schema/contacts";
 import { ContactsForm } from "@/components/admin/ContactsForm";
 import { MenuForm } from "@/components/admin/MenuForm";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
-
+import { callServerAction, safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
+import { findManyFilesAction } from "@/lib/actions/file";
 
 export default async function ContactsPage() {
+
 	const values = await safeFindOneKeyValueAction("contacts", contactsSchema);
+	const images = await callServerAction(findManyFilesAction, {});
 	return (
 		<main>
 			<Container>
@@ -17,7 +19,7 @@ export default async function ContactsPage() {
 						<CardTitle>Contatti</CardTitle>
 					</CardHeader>
 					<CardContent>
-						<ContactsForm values={values} />
+						<ContactsForm values={values} images={images || []}/>
 					</CardContent>
 				</Card>
 			</Container>

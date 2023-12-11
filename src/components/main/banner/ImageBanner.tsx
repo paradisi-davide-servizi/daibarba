@@ -29,7 +29,9 @@ export function ImageBanner({
 	children,
 	gradient,
 	imageSource,
+	priority,
 }: {
+	priority?: boolean;
 	children?: ReactNode;
 	imageSource?: StorageFile | string;
 } & BannerVariants &
@@ -41,6 +43,7 @@ export function ImageBanner({
 					alt="logo"
 					width={500}
 					height={500}
+					priority={priority}
 					image={{
 						storageName: "daibarba",
 						source: imageSource,

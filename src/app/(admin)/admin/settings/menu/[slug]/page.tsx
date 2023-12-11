@@ -30,7 +30,7 @@ export default async function TodaysMenuPage({
 						<CardTitle className=" uppercase">{menu?.title || slug}</CardTitle>
 					</CardHeader>
 					<CardContent>
-						<MenuForm values={menu} storeKey={slug} images={images || []}/>
+						<MenuForm values={menu} menuType={slug} images={images || []}/>
 					</CardContent>
 				</Card>
 			</Container>

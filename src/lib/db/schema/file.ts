@@ -23,6 +23,10 @@ const imageFileMetadataSchema = baseMetadata.extend({
     blurData: z.string().optional(),
 })
 
+const iconFileMetadataSchema = baseMetadata.extend({
+    fileType: z.literal("icon"),
+})
+
 const jsonFileMetadataSchema = baseMetadata.extend({
     fileType: z.literal("json"),
     json: z.string()
@@ -30,6 +34,7 @@ const jsonFileMetadataSchema = baseMetadata.extend({
 
 export const fileMetadataSchema = z.discriminatedUnion("fileType", [
     unknownMetadataSchema,
+    iconFileMetadataSchema,
     jsonFileMetadataSchema,
     imageFileMetadataSchema,
 ])

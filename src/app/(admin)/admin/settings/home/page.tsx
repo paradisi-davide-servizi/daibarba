@@ -6,11 +6,13 @@ import { SiteForm } from "@/components/admin/SiteForm";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { homeSchema } from "@/lib/db/schema/home";
 import { HomeForm } from "@/components/admin/HomeForm";
-import { safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
+import { callServerAction, safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
+import { findManyFilesAction } from "@/lib/actions/file";
 
 
 export default async function HomePage() {
 	const values = await safeFindOneKeyValueAction("home", homeSchema);
+	const images = await callServerAction(findManyFilesAction, {});
 	return (
 		<main>
 			<Container>
@@ -19,7 +21,7 @@ export default async function HomePage() {
 						<CardTitle>Home</CardTitle>
 					</CardHeader>
 					<CardContent>
-						<HomeForm values={values} />
+						<HomeForm values={values} images={images || []}/>
 					</CardContent>
 				</Card>
 			</Container>

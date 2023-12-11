@@ -10,12 +10,44 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 export async function uploadFileToStorage(
 	storageName: string, file: File,
 	getStoragePath: (fileName: string) => string[],
-	getMetadata: (file: File) => Promise<FileMetadata>,
 	upsert: boolean) {
 
-	const metadata = await getMetadata(file);
+	let metadata: FileMetadata | undefined;
+	switch (file.type) {
+		case "image/jpeg":
+		case "image/png":
+		case "image/gif":
+		case "image/bmp":
+		case "image/webp":
+			const { width, height, blurData } = await generateBlurDataURL(file);
+			metadata = {
+				width,
+				height,
+				blurData,
+				alt: file.name,
+				size: file.size,
+				fileType: "image",
+				mimeType: file.type,
+			};
+			break;
+		case "image/x-icon":
+		case "image/vnd.microsoft.icon":
+			metadata = {
+				size: file.size,
+				mimeType: file.type,
+				fileType: "icon",
+			}
+			break;
+		default:
+			metadata = {
+				size: file.size,
+				mimeType: file.type,
+				fileType: "unknown",
+			}
+	}
+
 	if (metadata.fileType === "unknown")
-		throw new Error("Unknown metadata");
+		throw new Error(`Unknown metadata for MIME type ${file.type}`);
 
 	const fileName = fspath.basename(file.name);
 	const storagePath = fspath.join(...getStoragePath(fileName));
@@ -35,22 +67,4 @@ export async function uploadFileToStorage(
 		throw new Error("File not uploaded");
 
 	return storagePath;
-}
-
-export async function uploadImageToStorage(
-	storageName: string, image: File,
-	getStoragePath: (fileName: string) => string[],
-	upsert: boolean) {
-	return uploadFileToStorage(storageName, image, getStoragePath, async image => {
-		const { width, height, blurData } = await generateBlurDataURL(image);
-		return {
-			width,
-			height,
-			blurData,
-			alt: image.name,
-			size: image.size,
-			fileType: "image",
-			mimeType: image.type,
-		};
-	}, upsert)
 }
