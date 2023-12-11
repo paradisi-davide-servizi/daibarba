@@ -25,10 +25,7 @@ import {
 import { z } from "zod";
 import { CallToActionTile } from "@/components/main/tile/CallToActionTile";
 import { FaCircle, FaDotCircle } from "react-icons/fa";
-import {
-	cachedFindOneKeyValue,
-	safeFindOneKeyValueAction,
-} from "@/lib/utils/actionUtils";
+import { safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
 import { ReservationTile } from "@/components/main/tile/ReservationTile";
 
 function HeroSection({ home }: { home?: z.infer<typeof homeSchema> }) {
@@ -70,10 +67,7 @@ function MenuSection({
 }) {
 	return (
 		<>
-			<FaCircle
-				size={15}
-				className="text-accent-foreground self-center"
-			/>
+			<FaCircle size={15} className="text-accent-foreground self-center" />
 			<div className=" flex flex-col">
 				<div
 					className={cn(
@@ -121,10 +115,7 @@ function ContactsSection({
 }) {
 	return (
 		<>
-			<FaCircle
-				size={15}
-				className=" text-accent-foreground self-center"
-			/>
+			<FaCircle size={15} className=" text-accent-foreground self-center" />
 			<ImageBanner imageSource={contacts?.bannerImage} gradient={"to_l"}>
 				<Container>
 					<div className="flex flex-col md:flex-row justify-start items-center gap-4">
@@ -153,13 +144,10 @@ export default async function Home() {
 	);
 
 	const menus = await Promise.all(
-		menuTypeArray.map(async (menuKey) => {
-			const getMenu = cachedFindOneKeyValue(menuKey, menuSchema);
-			return {
-				menuKey,
-				menu: await getMenu(),
-			};
-		})
+		menuTypeArray.map(async (menuKey) => ({
+			menuKey,
+			menu: await safeFindOneKeyValueAction(menuKey, menuSchema),
+		}))
 	);
 
 	return (

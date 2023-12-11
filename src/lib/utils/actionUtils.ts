@@ -27,7 +27,3 @@ export async function safeUpsertKeyValueAction<Schema extends z.ZodTypeAny>(key:
     }
     return false;
 }
-
-export function cachedFindOneKeyValue<Schema extends z.ZodTypeAny>(key: string, schema: Schema) {
-    return unstable_cache(() => safeFindOneKeyValueAction(key, schema), [key], { tags: [key] })
-}
