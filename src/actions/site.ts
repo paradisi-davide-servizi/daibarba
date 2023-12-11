@@ -8,11 +8,12 @@ import { revalidatePath } from "next/cache"
 export const updateSiteAction = authAction(siteSchema, async site => {
     const result = await safeUpsertKeyValueAction("site", siteSchema, site);
     if (result) {
-        revalidatePath("/admin/settings/site", "page");
+        revalidatePath("/(admin)/admin/settings/site", "page");
 
-        revalidatePath("/menu/[slug]", "page");
+        revalidatePath("/(main)/menu/[slug]", "page");
         revalidatePath("/(admin)", "layout");
         revalidatePath("/(main)", "layout");
-        revalidatePath("/", "page");
+        revalidatePath("/(main)/", "page");
+        revalidatePath("/(admin)/", "page");
     }
 })
