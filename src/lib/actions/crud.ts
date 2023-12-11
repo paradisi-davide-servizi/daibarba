@@ -11,11 +11,13 @@ type KeyOfType<T, V> = keyof {
 
 export function getCRUDActions<
     TTable extends PgTable,
+    TTableName extends TTable["_"]["name"],
     TTableKey extends KeyOfType<TTable, TPKeyColumn>,
     TPKeyColumn extends TTable[TTableKey] & PgColumn,
     TPKeyType extends GetColumnData<TPKeyColumn, 'query'>,
     TTableKeySchema extends z.ZodType<TPKeyType>>(
         table: TTable,
+        tableName: TTableName,
         tableKey: TTableKey,
         tableKeySchema: { [k in TTableKey]: TTableKeySchema }) {
 
@@ -35,7 +37,7 @@ export function getCRUDActions<
                 .values(data)
                 .returning();
             if (rows.length > 0) {
-                revalidateTag(table._.name)
+                revalidateTag(tableName)
             }
             return rows[0];
         }),
@@ -49,8 +51,8 @@ export function getCRUDActions<
                 .where(eq(keyColumn, key))
                 .returning();
             if (rows.length > 0) {
-                revalidateTag(`${table._.name}/${key}`)
-                revalidateTag(table._.name)
+                revalidateTag(`${tableName}/${key}`)
+                revalidateTag(tableName)
             }
             return rows[0];
         }),
@@ -67,8 +69,8 @@ export function getCRUDActions<
                 })
                 .returning();
             if (rows.length > 0) {
-                revalidateTag(`${table._.name}/${key}`)
-                revalidateTag(table._.name)
+                revalidateTag(`${tableName}/${key}`)
+                revalidateTag(tableName)
             }
             return rows[0];
         }),
@@ -81,8 +83,8 @@ export function getCRUDActions<
                 .where(eq(keyColumn, key))
                 .returning();
             if (rows.length > 0) {
-                revalidateTag(`${table._.name}/${key}`)
-                revalidateTag(table._.name)
+                revalidateTag(`${tableName}/${key}`)
+                revalidateTag(tableName)
             }
             return rows[0];
         }),
@@ -96,7 +98,7 @@ export function getCRUDActions<
                     .from(table)
                     .where(eq(keyColumn, key));
                 return rows[0];
-            }, [`${table._.name}/${key}`], { tags: [`${table._.name}/${key}`] });
+            }, [`${tableName}/${key}`], { tags: [`${tableName}/${key}`] });
             return findOneCached();
         }),
 
@@ -105,7 +107,7 @@ export function getCRUDActions<
                 return ctx.db
                     .select()
                     .from(table);
-            }, [table._.name], { tags: [table._.name] });
+            }, [tableName], { tags: [tableName] });
             return findManyCached();
         }),
     }

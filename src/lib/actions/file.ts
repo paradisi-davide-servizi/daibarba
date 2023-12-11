@@ -4,7 +4,7 @@ import { files } from "../db/schema/file";
 import { getCRUDActions } from "./crud";
 import { z } from "zod";
 
-const crudActions = getCRUDActions(files, "storagePath", { storagePath: z.string() });
+const crudActions = getCRUDActions(files, "file", "storagePath", { storagePath: z.string() });
 export const insertFileAction = crudActions.insert;
 export const upsertFileAction = crudActions.upsert;
 export const updateFileAction = crudActions.update;
