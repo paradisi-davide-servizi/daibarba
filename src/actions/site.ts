@@ -9,7 +9,6 @@ export const updateSiteAction = authAction(siteSchema, async (site) => {
     const result = await safeUpsertKeyValueAction("site", siteSchema, site);
     if (result) {
         revalidatePath(`/admin/settings/site`, "page");
-        revalidatePath("/(admin)", "layout");
-        revalidatePath("/(main)", "layout");
+        revalidatePath("/", "layout");
     }
 })

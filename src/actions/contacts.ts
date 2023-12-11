@@ -10,6 +10,6 @@ export const updateHomeAction = authAction(contactsSchema, async contacts => {
     const result = await safeUpsertKeyValueAction("contacts", contactsSchema, contacts);
     if (result) {
         revalidatePath("/admin/settings/contacts", "page");
-        revalidatePath("/(main)", "layout");
+        revalidatePath("/", "layout");
     }
 })
