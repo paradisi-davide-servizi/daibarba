@@ -4,7 +4,10 @@ import { MenuForm } from "../../../../../../components/admin/MenuForm";
 import { MenuType, menuSchema, menuTypeArray } from "@/lib/db/schema/menu";
 import { SiteForm } from "@/components/admin/SiteForm";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { callServerAction, safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
+import {
+	callServerAction,
+	safeFindOneKeyValueAction,
+} from "@/lib/utils/actionUtils";
 import { findManyFilesAction } from "@/lib/actions/file";
 
 export const dynamicParams = false;
@@ -20,17 +23,27 @@ export default async function TodaysMenuPage({
 }: {
 	params: { slug: MenuType };
 }) {
-	const menu = await safeFindOneKeyValueAction(slug, menuSchema);
-	const images = await callServerAction(findManyFilesAction, {});
+	const menu = await safeFindOneKeyValueAction(slug, menuSchema, {
+		revalidate: 0,
+	});
+	const images = await callServerAction(findManyFilesAction, {
+		revalidate: 0,
+	});
 	return (
 		<main>
 			<Container>
 				<Card>
 					<CardHeader>
-						<CardTitle className=" uppercase">{menu?.title || slug}</CardTitle>
+						<CardTitle className=" uppercase">
+							{menu?.title || slug}
+						</CardTitle>
 					</CardHeader>
 					<CardContent>
-						<MenuForm values={menu} menuType={slug} images={images || []}/>
+						<MenuForm
+							values={menu}
+							menuType={slug}
+							images={images || []}
+						/>
 					</CardContent>
 				</Card>
 			</Container>

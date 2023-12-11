@@ -13,8 +13,8 @@ export async function callServerAction<Schema extends z.ZodTypeAny, Data>(server
     return result?.data;
 }
 
-export async function safeFindOneKeyValueAction<Schema extends z.ZodTypeAny>(key: string, schema: Schema) {
-    const kvp = await callServerAction(findOneKeyValueAction, { key });
+export async function safeFindOneKeyValueAction<Schema extends z.ZodTypeAny>(key: string, schema: Schema, options?: { revalidate?:false | number }) {
+    const kvp = await callServerAction(findOneKeyValueAction, { key, options });
     const value = schema.safeParse(kvp?.value);
     return value.success ? value.data as z.infer<Schema> : undefined;
 }

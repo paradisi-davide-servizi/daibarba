@@ -27,7 +27,16 @@ export function getCRUDActions<
     const updateSchema = createSelectSchema(table);
 
     const keySchema = z.object(tableKeySchema)
-    const findManySchema = z.object({});
+
+    const optionsSchema = z.object({
+        revalidate: z.union([z.literal(false), z.number()]).optional()
+    });
+
+    const findOneSchema = keySchema.extend({
+        options: optionsSchema.optional()
+    });
+
+    const findManySchema = optionsSchema;
 
     return {
         insert: authAction(insertSchema, async (input, ctx) => {
@@ -89,25 +98,28 @@ export function getCRUDActions<
             return rows[0];
         }),
 
-        findOne: action(keySchema, async (input, ctx) => {
-            const data = keySchema.parse(input);
+        findOne: action(findOneSchema, async (input, ctx) => {
+            const data = findOneSchema.parse(input);
             const key = (data as any)[tableKey];
+            const revalidate = data.options?.revalidate || false;
             const findOneCached = unstable_cache(async () => {
                 const rows = await ctx.db
                     .select()
                     .from(table)
                     .where(eq(keyColumn, key));
                 return rows[0];
-            }, [`${tableName}/${key}`], { tags: [`${tableName}/${key}`] });
+            }, [`${tableName}/${key}`], { tags: [`${tableName}/${key}`], revalidate });
             return findOneCached();
         }),
 
-        findMany: action(findManySchema, (_input, ctx) => {
+        findMany: action(findManySchema, (input, ctx) => {
+            const data = findManySchema.parse(input);
+            const revalidate = data.revalidate || false;
             const findManyCached = unstable_cache(async () => {
                 return ctx.db
                     .select()
                     .from(table);
-            }, [tableName], { tags: [tableName] });
+            }, [tableName], { tags: [tableName], revalidate });
             return findManyCached();
         }),
     }

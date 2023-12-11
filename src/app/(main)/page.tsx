@@ -67,7 +67,10 @@ function MenuSection({
 }) {
 	return (
 		<>
-			<FaCircle size={15} className="text-accent-foreground self-center" />
+			<FaCircle
+				size={15}
+				className="text-accent-foreground self-center"
+			/>
 			<div className=" flex flex-col">
 				<div
 					className={cn(
@@ -115,7 +118,10 @@ function ContactsSection({
 }) {
 	return (
 		<>
-			<FaCircle size={15} className=" text-accent-foreground self-center" />
+			<FaCircle
+				size={15}
+				className=" text-accent-foreground self-center"
+			/>
 			<ImageBanner imageSource={contacts?.bannerImage} gradient={"to_l"}>
 				<Container>
 					<div className="flex flex-col md:flex-row justify-start items-center gap-4">
