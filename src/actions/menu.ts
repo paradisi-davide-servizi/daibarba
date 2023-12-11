@@ -9,8 +9,8 @@ import { z } from "zod";
 export const updateMenuAction = authAction(updateMenuSchema, async ({ menu, menuType }) => {
     const result = await safeUpsertKeyValueAction(menuType, menuSchema, menu);
     if(result) {    
-        revalidatePath(`/admin/settings/menu/${menuType}`, "page");
-        revalidatePath(`/menu/${menuType}`, "page");
-        revalidatePath("/", "page");
+        revalidatePath(`/(admin)/admin/settings/menu/${menuType}`, "page");
+        revalidatePath(`/(main)/menu/${menuType}`, "page");
+        revalidatePath("/(main)", "page");
     }
 });
