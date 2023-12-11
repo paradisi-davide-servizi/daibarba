@@ -22,21 +22,19 @@ export function Navbar({
 	logo?: ReactNode;
 	children?: ReactNode;
 	className?: string;
-	telephone?: {
-		showInNavbar: boolean;
-		number?: z.infer<typeof telephoneNumberSchema>;
-	};
+	telephone?: z.infer<typeof telephoneNumberSchema>;
 	setIsOpen: (isOpen: (value: boolean) => boolean) => void;
 }) {
 	const hamburgerLine = `h-1 w-8 my-1 bg-stone-800 transition ease transform duration-300`;
 
 	return (
-		<div className={cn("flex-row items-center justify-between", className)}>
+		<div className={cn("items-center justify-between", className)}>
 			<Link href={"/"}>{logo}</Link>
 			<div className=" flex flex-row items-center gap-x-4">
-				{telephone?.showInNavbar && telephone.number && (
+				{telephone && (
 					<Link
-						href={`tel:${telephone.number.prefix}${telephone.number.number}`}>
+						href={`tel:${telephone.prefix}${telephone.number}`}
+						className="md:hidden">
 						<FaPhone size={25} />
 					</Link>
 				)}
@@ -62,7 +60,7 @@ export function Navbar({
 			</div>
 			<div
 				className={cn(
-					"fixed top-24 right-0 h-full w-full translate-x-full overflow-y-auto overscroll-y-none transition duration-500 z-50",
+					"fixed top-24 md:top-0 right-0 md:left-28 h-full w-full bg-white translate-x-full overflow-hidden overscroll-y-none transition duration-500 z-50",
 					isOpen ? "translate-x-0" : ""
 				)}>
 				{children}

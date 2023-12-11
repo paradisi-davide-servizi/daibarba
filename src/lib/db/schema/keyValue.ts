@@ -5,3 +5,4 @@ export const keyValues = pgTable("keyValues", {
     key: varchar("key").primaryKey(),
     value: json("value")
 });
+

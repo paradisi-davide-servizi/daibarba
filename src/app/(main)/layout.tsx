@@ -1,11 +1,11 @@
 import { MainFooter } from "@/components/main/MainFooter";
 import { MainNavBar } from "@/components/main/navbar/MainNavBar";
-import { safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
 import StyledLink from "@/lib/components/StyledLink";
 import { siteSchema } from "@/lib/db/schema/site";
 import { contactsSchema } from "@/lib/db/schema/contacts";
 import { StorageImage } from "@/lib/components/StorageImage";
-import { menuSchema } from "@/lib/db/schema/menu";
+import { menuSchema, menuTypeArray } from "@/lib/db/schema/menu";
+import { safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
 
 export default async function RootLayout({
 	children,
@@ -17,15 +17,14 @@ export default async function RootLayout({
 		"contacts",
 		contactsSchema
 	);
-	const menu = await safeFindOneKeyValueAction("menu", menuSchema);
-	const todaysMenu = await safeFindOneKeyValueAction(
-		"todays-menu",
-		menuSchema
+
+	const menus = await Promise.all(
+		menuTypeArray.map(async (menuKey) => ({
+			menuKey,
+			menu: await safeFindOneKeyValueAction(menuKey, menuSchema),
+		}))
 	);
-	const specialMenu = await safeFindOneKeyValueAction(
-		"special-menu",
-		menuSchema
-	);
+
 	return (
 		<MainNavBar
 			logo={
@@ -33,30 +32,21 @@ export default async function RootLayout({
 					image={{ storageName: "daibarba", source: site?.logo }}
 					height={100}
 					width={100}
-					className=" h-24 w-24"
+					className=" h-24 w-24 object-contain"
 				/>
 			}
 			socials={contacts?.socials}
-			telephone={{
-				showInNavbar: true,
-				number: contacts?.telephoneNumbers[0],
-			}}
+			telephone={contacts?.telephoneNumbers[0]}
 			navItems={
 				<>
 					<StyledLink href="/">Home</StyledLink>
-					{specialMenu?.isVisible && (
-						<StyledLink href="/special-menu">
-							{specialMenu.title}
-						</StyledLink>
-					)}
-					{todaysMenu?.isVisible && (
-						<StyledLink href="/todays-menu">
-							{todaysMenu.title}
-						</StyledLink>
-					)}
-					{menu?.isVisible && (
-						<StyledLink href="/menu">{menu.title}</StyledLink>
-					)}
+					{menus
+						.filter(({ menu }) => menu?.isVisible)
+						.map(({ menu, menuKey }) => (
+							<StyledLink key={menuKey} href={`/menu/${menuKey}`}>
+								{menu?.title}
+							</StyledLink>
+						))}
 					<StyledLink href="/contacts">Contatti</StyledLink>
 					<StyledLink
 						href={site?.reservationLink || "/"}

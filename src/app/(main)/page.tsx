@@ -2,16 +2,10 @@ import Image from "next/image";
 import { Container } from "@/lib/components/Container";
 import Link from "next/link";
 import StyledLink from "@/lib/components/StyledLink";
-import { findOneKeyValueAction } from "@/lib/actions/keyValue";
-import {
-	callServerAction,
-	safeFindOneKeyValueAction,
-} from "@/lib/utils/actionUtils";
 import { cn } from "@/lib/utils";
 import { Tile } from "@/components/main/tile/Tile";
 import { siteSchema } from "@/lib/db/schema/site";
-import { findOneFileAction } from "@/lib/actions/file";
-import { menuSchema } from "@/lib/db/schema/menu";
+import { menuSchema, menuTypeArray } from "@/lib/db/schema/menu";
 import { homeSchema } from "@/lib/db/schema/home";
 import "../globals.css";
 import { Timetables } from "@/components/main/contacts/Timetable";
@@ -31,6 +25,8 @@ import {
 import { z } from "zod";
 import { CallToActionTile } from "@/components/main/tile/CallToActionTile";
 import { FaCircle, FaDotCircle } from "react-icons/fa";
+import { safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
+import { ReservationTile } from "@/components/main/tile/ReservationTile";
 
 function HeroSection({ home }: { home?: z.infer<typeof homeSchema> }) {
 	return (
@@ -71,37 +67,43 @@ function MenuSection({
 }) {
 	return (
 		<>
-			{menu?.isVisible && (
-				<>
-					<FaCircle size={15} className="text-red-800" />
-					<ImageBanner imageSource={menu?.bannerImage}>
-						<Container className="">
-							<div className="flex flex-row justify-start items-start">
-								<div
-									className={cn(
-										" flex flex-row w-full h-full items-center",
-										align === "start"
-											? "justify-start text-left"
-											: "justify-end text-right"
-									)}>
-									<div className="flex flex-col md:max-w-[50vw] relative text-white gap-4 md:gap-8">
-										<div className=" text-4xl uppercase tracking-widest font-semibold">
-											{menu.title}
-										</div>
-										<div className=" text-justify">
-											{menu.description}
-										</div>
-										<CallToActionTile
-											href={href}
-											label={menu.callToAction}
-										/>
+			<FaCircle size={15} className="text-accent-foreground self-center" />
+			<div className=" flex flex-col">
+				<div
+					className={cn(
+						" text-4xl uppercase tracking-widest font-semibold  from-[#D6AD60] to-[#B68D40]  text-white p-8",
+						align === "end"
+							? "justify-start text-left bg-gradient-to-l"
+							: "justify-end text-right bg-gradient-to-r"
+					)}>
+					{menu?.title}
+				</div>
+				<ImageBanner
+					imageSource={menu?.bannerImage}
+					gradient={align === "start" ? "to_r" : "to_l"}>
+					<Container className="">
+						<div className="flex flex-row items-start">
+							<div
+								className={cn(
+									" flex flex-row w-full h-full items-center",
+									align === "start"
+										? "justify-start text-left"
+										: "justify-end text-right"
+								)}>
+								<div className="flex flex-col md:w-[65%] relative text-white gap-4 md:gap-8">
+									<div className=" text-justify text-lg">
+										{menu?.description}
 									</div>
+									<CallToActionTile
+										href={href}
+										label={menu?.callToAction || ""}
+									/>
 								</div>
 							</div>
-						</Container>
-					</ImageBanner>
-				</>
-			)}
+						</div>
+					</Container>
+				</ImageBanner>
+			</div>
 		</>
 	);
 }
@@ -113,9 +115,9 @@ function ContactsSection({
 }) {
 	return (
 		<>
-			<FaCircle size={15} className="text-red-800" />
-			<ImageBanner imageSource={contacts?.bannerImage}>
-				<Container className="">
+			<FaCircle size={15} className=" text-accent-foreground self-center" />
+			<ImageBanner imageSource={contacts?.bannerImage} gradient={"to_l"}>
+				<Container>
 					<div className="flex flex-col md:flex-row justify-start items-center gap-4">
 						<GoogleMap
 							zoom={15}
@@ -136,53 +138,35 @@ function ContactsSection({
 
 export default async function Home() {
 	const home = await safeFindOneKeyValueAction("home", homeSchema);
-	const site = await safeFindOneKeyValueAction("site", siteSchema);
-	const menu = await safeFindOneKeyValueAction("menu", menuSchema);
 	const contacts = await safeFindOneKeyValueAction(
 		"contacts",
 		contactsSchema
 	);
-	const todaysMenu = await safeFindOneKeyValueAction(
-		"todays-menu",
-		menuSchema
-	);
-	const specialMenu = await safeFindOneKeyValueAction(
-		"special-menu",
-		menuSchema
-	);
-	return (
-		<main className="flex flex-col items-center md:px-24 md:p-16 md:gap-12 gap-4">
-			<HeroSection home={home} />
-			<MenuSection menu={specialMenu} align="start" href="special-menu" />
-			<MenuSection menu={todaysMenu} align="end" href="todays-menu" />
-			<MenuSection menu={menu} align="start" href="menu" />
-			<ContactsSection contacts={contacts} />
 
-			{/* <ImageBanner
-				size={"fullScreen"}
-				imageSource={home?.timetablesImage}>
-				<BannerFull>
-					<Container>
-						<div className=" flex flex-row items-center gap-8 w-full h-full justify-center">
-							<div className="relative w-full">
-								<div className=" mt-[100%]"></div>
-								<GoogleMap
-									zoom={15}
-									lang="it"
-									className=" absolute top-0 left-0 w-full h-full"
-									location={contacts?.locations?.[0]}
-								/>
-							</div>
-							<BannerTitle>
-								<Timetables
-									className=" text-xl md:text-2xl	flex flex-col items-end justify-end text-right"
-									timetables={contacts?.timeTables}
-								/>
-							</BannerTitle>
-						</div>
-					</Container>
-				</BannerFull>
-			</ImageBanner> */}
+	const menus = await Promise.all(
+		menuTypeArray.map(async (menuKey) => ({
+			menuKey,
+			menu: await safeFindOneKeyValueAction(menuKey, menuSchema),
+		}))
+	);
+
+	return (
+		<main className="flex flex-col items-center">
+			<HeroSection home={home} />
+			<div className=" w-full md:max-w-5xl flex flex-col items-stretch p-5 md:py-8 gap-8 md:gap-12">
+				<ReservationTile text={"accent"} />
+				{menus
+					.filter(({ menu }) => menu?.isVisible)
+					.map(({ menu, menuKey }, i) => (
+						<MenuSection
+							key={menuKey}
+							menu={menu}
+							href={`menu/${menuKey}`}
+							align={i % 2 === 0 ? "start" : "end"}
+						/>
+					))}
+				<ContactsSection contacts={contacts} />
+			</div>
 		</main>
 	);
 }

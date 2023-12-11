@@ -1,19 +1,27 @@
-import { Container }from "@/lib/components/Container";
+import { Container } from "@/lib/components/Container";
 import React from "react";
-import Image from "next/image";
+import { siteSchema } from "@/lib/db/schema/site";
+import { StorageImage } from "@/lib/components/StorageImage";
+import { safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
 
-export default function NotFound() {
+export default async function NotFound() {
+	const site = await safeFindOneKeyValueAction("site", siteSchema);
 	return (
 		<main>
 			<Container className="min-h-screen justify-center">
 				<div className=" flex flex-col items-center justify-center h-full w-full">
-					<Image
-						src={"/logo.png"}
+					<StorageImage
 						alt="logo"
 						width={500}
 						height={500}
+						image={{
+							storageName: "daibarba",
+							source: site?.logo,
+						}}
 					/>
-        <p className=" text-4xl font-semibold">Ops! qualcosa è andato storto</p>
+					<p className=" text-4xl font-semibold">
+						Ops! qualcosa è andato storto
+					</p>
 				</div>
 			</Container>
 		</main>

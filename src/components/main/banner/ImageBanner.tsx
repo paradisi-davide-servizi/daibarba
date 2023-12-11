@@ -4,16 +4,36 @@ import React, { ReactNode } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Banner, BannerVariants } from "./Banner";
 import { BannerParallax } from "./BannerParallax";
-import { VariantProps } from "class-variance-authority";
+import { VariantProps, cva } from "class-variance-authority";
+
+export const imageBannerVariants = cva(
+	"absolute top-0 left-0 w-full h-full from-black from-10%",
+	{
+		variants: {
+			gradient: {
+				default: "",
+				to_r: "bg-gradient-to-r",
+				to_l: "bg-gradient-to-l",
+			},
+		},
+		defaultVariants: {
+			gradient: "default",
+		},
+	}
+);
+
+export type ImageBannerVariants = VariantProps<typeof imageBannerVariants>;
 
 export function ImageBanner({
 	size,
 	children,
+	gradient,
 	imageSource,
 }: {
 	children?: ReactNode;
 	imageSource?: StorageFile | string;
-} & BannerVariants) {
+} & BannerVariants &
+	ImageBannerVariants) {
 	return (
 		<Banner size={size}>
 			<BannerParallax>
@@ -28,6 +48,7 @@ export function ImageBanner({
 					className=" w-full h-full object-cover brightness-[35%]"
 				/>
 			</BannerParallax>
+			<div className={imageBannerVariants({ gradient })} />
 			{children}
 		</Banner>
 	);

@@ -1,5 +1,7 @@
-import { Container }from "@/lib/components/Container";
+import { Container } from "@/lib/components/Container";
 import StyledLink from "@/lib/components/StyledLink";
+import SignOutForm from "@/lib/components/auth/SignOutForm";
+import { menuTypeArray } from "@/lib/db/schema/menu";
 import React from "react";
 
 export default function Admin() {
@@ -10,21 +12,18 @@ export default function Admin() {
 					Impostazioni del sito
 				</StyledLink>
 				<StyledLink href={"/admin/settings/home"}>Home</StyledLink>
+				{menuTypeArray.map((menuKey) => (
+					<StyledLink
+						key={menuKey}
+						href={`/admin/settings/menu/${menuKey}`}>
+						{menuKey}
+					</StyledLink>
+				))}
 				<StyledLink href={"/admin/settings/contacts"}>
 					Contatti
 				</StyledLink>
-				<StyledLink href={"/admin/settings/menu"}>
-					Menù alla carta
-				</StyledLink>
-				<StyledLink href={"/admin/settings/todays-menu"}>
-					Menù del giorno
-				</StyledLink>
-				<StyledLink href={"/admin/settings/special-menu"}>
-					Menù speciale
-				</StyledLink>
-				<StyledLink href={"/admin/upload"}>
-					Carica immagine
-				</StyledLink>
+				<StyledLink href={"/admin/upload"}>Carica immagine</StyledLink>
+				<SignOutForm/>
 			</div>
 		</Container>
 	);

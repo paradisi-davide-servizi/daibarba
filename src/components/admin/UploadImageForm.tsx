@@ -4,8 +4,6 @@ import React from "react";
 import { z } from "zod";
 import AutoForm, { AutoFormSubmit } from "../ui/auto-form";
 import { uploadImageToStorage } from "@/lib/utils/storageUtils";
-import { callServerAction } from "@/lib/utils/actionUtils";
-import { upsertFileAction } from "@/lib/actions/file";
 
 const uploadImageSchema = z.object({
 	image: z

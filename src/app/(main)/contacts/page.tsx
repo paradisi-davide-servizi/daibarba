@@ -1,5 +1,4 @@
 import { Container } from "@/lib/components/Container";
-import { safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
 import React from "react";
 import { contactsSchema } from "@/lib/db/schema/contacts";
 import { ImageBanner } from "@/components/main/banner/ImageBanner";
@@ -8,6 +7,7 @@ import { EmailLinks } from "@/components/main/contacts/EmailLinks";
 import { TelephoneNumberLinks } from "@/components/main/contacts/TelephoneLinks";
 import { Locations } from "@/components/main/contacts/Locations";
 import { Timetables } from "@/components/main/contacts/Timetable";
+import { safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
 
 export default async function ContactsPage() {
 	const contacts = await safeFindOneKeyValueAction(
@@ -16,8 +16,10 @@ export default async function ContactsPage() {
 	);
 	return (
 		<main>
-			<ImageBanner imageSource={contacts?.bannerImage}>
-				contatti
+			<ImageBanner imageSource={contacts?.bannerImage} size={"fixed"}>
+				<div className=" text-7xl w-full h-full flex flex-row items-center justify-center text-white uppercase text-center tracking-widest">
+					contatti
+				</div>
 			</ImageBanner>
 			<Container className=" py-20">
 				<div className=" grid grid-cols-1 md:grid-cols-2 gap-8">

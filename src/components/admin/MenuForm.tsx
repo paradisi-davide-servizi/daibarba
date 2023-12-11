@@ -1,16 +1,18 @@
 "use client";
 
 import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
-import { upsertKeyValueAction } from "@/lib/actions/keyValue";
-import { menuSchema } from "@/lib/db/schema/menu";
-import { callServerAction } from "@/lib/utils/actionUtils";
+import { StorageFile, fileMetadataSchema } from "@/lib/db/schema/file";
+import { MenuType, menuSchema } from "@/lib/db/schema/menu";
+import { safeUpsertKeyValueAction } from "@/lib/utils/actionUtils";
 import { z } from "zod";
 
 export function MenuForm({
 	storeKey,
 	values,
+	images,
 }: {
-	storeKey: "menu" | "todays-menu" | "special-menu";
+	storeKey: MenuType;
+	images: StorageFile[];
 	values?: z.infer<typeof menuSchema>;
 }) {
 	return (
@@ -18,10 +20,22 @@ export function MenuForm({
 			values={values}
 			formSchema={menuSchema}
 			onSubmit={async (formData) => {
-				await callServerAction(upsertKeyValueAction, {
-					key: storeKey,
-					value: formData,
-				});
+				await safeUpsertKeyValueAction(storeKey, menuSchema, formData);
+			}}
+			fieldConfig={{
+				bannerImage: {
+					fieldType: "select",
+					values: images.map(
+						(image) =>
+							[image.storagePath, image.storagePath] as [
+								string,
+								string
+							]
+					),
+				},
+				description: {
+					fieldType: "textarea",
+				},
 			}}>
 			<AutoFormSubmit>Salva menù</AutoFormSubmit>
 		</AutoForm>

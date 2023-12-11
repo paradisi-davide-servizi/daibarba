@@ -18,7 +18,6 @@ export default function GoogleMap({
 		const businessName = encodeURIComponent(location.businessName);
 		fullAddress = `${fullAddress}+${businessName}`;
 	}
-	console.log(fullAddress)
 	const src = `https://maps.google.com/maps?width=100%25&height=600&hl=${lang}&q=${fullAddress}&t=&z=${zoom}&ie=UTF8&iwloc=B&output=embed`
     return <iframe src={src} className={className}/>
 }

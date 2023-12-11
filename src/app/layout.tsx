@@ -21,7 +21,7 @@ export default function RootLayout({
 	return (
 		<html lang="it" suppressHydrationWarning>
 			<body
-				className={cn(inter.className, "text-stone-800 bg-stone-200")}>
+				className={cn(inter.className, "text-stone-800 bg-white")}>
 				<ThemeProvider
 					attribute="class"
 					defaultTheme="light"

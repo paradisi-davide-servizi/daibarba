@@ -43,7 +43,7 @@ export const files = pgTable("file", {
     metadata: json("metadata").$type<FileMetadata>(),
 });
 
-const fileSchema = createSelectSchema(files, {
+export const fileSchema = createSelectSchema(files, {
     metadata: fileMetadataSchema
 });
 

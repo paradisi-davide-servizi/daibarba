@@ -26,7 +26,7 @@ export function Tile({
 		<Link
 			{...props}
 			className={cn(
-				"relative overflow-hidden uppercase group flex tracking-widest  text-xl md:text-2xl shadow-md",
+				"relative overflow-hidden uppercase group flex tracking-widest  text-xl md:text-2xl shadow-lg",
 				className
 			)}>
 			{image && (

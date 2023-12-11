@@ -22,10 +22,7 @@ export function MainNavBar({
 	navItems?: ReactNode;
 	children?: ReactNode;
 	socials?: z.infer<typeof socialSchema>[];
-	telephone?: {
-		showInNavbar: boolean;
-		number?: z.infer<typeof telephoneNumberSchema>;
-	};
+	telephone?: z.infer<typeof telephoneNumberSchema>;
 }) {
 	const [isOpen, setIsOpen] = useState(false);
 	const pathname = usePathname();
@@ -35,17 +32,17 @@ export function MainNavBar({
 	}, [pathname]);
 
 	return (
-		<>
+		<div className=" flex flex-col md:flex-row">
 			<Navbar
 				logo={logo}
 				isOpen={isOpen}
 				telephone={telephone}
 				setIsOpen={setIsOpen}
 				className={cn(
-					"p-4 top-0 w-full bg-white h-24 flex md:hidden  z-50"
+					"p-4 top-0 md:left-0 w-full h-24 md:h-screen md:w-32 bg-white flex flex-row md:flex-col-reverse z-50 shadow-2xl md:fixed"
 				)}>
-				<div className="min-w-full h-[calc(100dvh-6rem)] bg-white flex flex-col justify-between items-center p-4">
-					<div className=" tracking-wider font-bold  flex flex-col items-center uppercase text-2xl gap-4">
+				<div className="w-screen md:w-[calc(100vw-8rem)] h-[calc(100dvh-6rem)] md:h-screen bg-white flex flex-col justify-between items-center p-8">
+					<div className=" tracking-wider font-bold  flex flex-col items-center uppercase text-2xl md:text-3xl gap-4 flex-1 justify-center">
 						{navItems}
 					</div>
 					<SocialNetworkLinks
@@ -55,27 +52,10 @@ export function MainNavBar({
 					/>
 				</div>
 			</Navbar>
-			<Navbar
-				logo={logo}
-				isOpen={isOpen}
-				setIsOpen={setIsOpen}
-				className={cn(
-					"p-4 top-0 w-full bg-white h-24 hidden md:flex text-center z-50"
-				)}>
-				<div className="min-w-full h-[calc(100dvh-6rem)] bg-white flex flex-col justify-between items-center p-4">
-					<div className=" tracking-wider float-right font-bold flex flex-col items-center uppercase text-3xl gap-4">
-						{navItems}
-					</div>
-					<SocialNetworkLinks
-						iconSize={35}
-						socials={socials}
-						className=" flex flex-row gap-x-2"
-					/>
-				</div>
-			</Navbar>
-			<div className={cn("mt-6rem", isOpen ? "h-[calc(100dvh-6rem)] overflow-hidden" : "")}>
+
+			<div className={cn("w-full md:ml-32", isOpen ? "h-[calc(100dvh-6rem)] md:h-screen overflow-clip" : "")}>
 				{children}
 			</div>
-		</>
+		</div>
 	);
 }

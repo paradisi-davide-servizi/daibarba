@@ -22,7 +22,3 @@ export const signInSchema = z.object({
     password: z.string()
         .refine(psw => passwordRegex.test(psw)),
 })
-
-export const signOutSchema = z.object({
-    scope:z.enum(["global", "local", "others"])
-});

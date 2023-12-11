@@ -37,7 +37,7 @@ export function getCRUDActions<
         }),
 
         update: authAction(updateSchema, (input, ctx) => {
-            const data = updateSchema.parse(input);
+            const data = updateSchema.safeParse(input);
             const key = (data as any)[tableKey];
             return ctx.db
                 .update(table)

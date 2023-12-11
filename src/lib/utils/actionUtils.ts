@@ -4,12 +4,12 @@ import { findOneFileAction } from "../actions/file";
 import { findOneKeyValueAction, upsertKeyValueAction } from "../actions/keyValue";
 
 export async function callServerAction<Schema extends z.ZodTypeAny, Data>(serverAction: SafeAction<Schema, Data>, input: z.input<Schema>) {
-    const { data, serverError, validationError } = await serverAction(input);
-    if (serverError)
-        throw serverError;
-    if (validationError)
-        throw validationError;
-    return data;
+    const result = await serverAction(input);
+    if (!!result?.serverError)
+        throw result.serverError;
+    if (!!result?.validationError)
+        throw result.validationError;
+    return result?.data;
 }
 
 export async function safeFindOneKeyValueAction<Schema extends z.ZodTypeAny>(key: string, schema: Schema) {

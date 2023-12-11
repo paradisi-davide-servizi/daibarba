@@ -17,3 +17,6 @@ export const menuSchema = z.object({
     bannerImage: z.string().optional(),
     categories: z.array(menuCategorySchema)
 })
+
+export const menuTypeArray = ["special", "today", "a-la-carte"] as const;
+export type MenuType = typeof menuTypeArray[number]

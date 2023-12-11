@@ -50,7 +50,7 @@ function MenuCategory({
 
 export default function Menu({ menu }: { menu?: z.infer<typeof menuSchema> }) {
 	return (
-		<div className=" pt-4">
+		<div className=" py-8">
 			{menu?.categories && (
 				<div className=" flex flex-col gap-y-8">
 					{menu.categories.map((c, i) => (
