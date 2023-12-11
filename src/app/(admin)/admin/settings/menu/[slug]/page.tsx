@@ -20,7 +20,7 @@ export default async function TodaysMenuPage({
 }: {
 	params: { slug: MenuType };
 }) {
-	const findMenu = cacheFindOneKeyValue(slug, menuSchema, 0);
+	const findMenu = cacheFindOneKeyValue(slug, menuSchema, 1);
 	const menu = await findMenu();
 	const images = await callServerAction(findManyFilesAction, {});
 	return (
