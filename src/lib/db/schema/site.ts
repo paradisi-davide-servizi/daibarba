@@ -7,3 +7,7 @@ export const siteSchema = z.object({
     name:z.string(),
     description:z.string().optional(),
 })
+
+export const updateSiteSchema = siteSchema.extend({
+    revalidatePath: z.string().optional(),
+})

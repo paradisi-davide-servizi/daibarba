@@ -21,8 +21,6 @@ export const signInAction = action(signInSchema, async (input, ctx) => {
 });
 
 export const signUpAction = action(signUpSchema, async (input, ctx) => {
-    
-    throw new Error("Invalid user")
     const data = signUpSchema.parse(input);
     const supabase = createServerActionClient({ cookies });
     const { error, data: { user } } = await supabase.auth.signUp(data);
