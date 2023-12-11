@@ -7,7 +7,7 @@ import Image from "next/image";
 import { siteSchema } from "@/lib/db/schema/site";
 import { ImageBanner } from "@/components/main/banner/ImageBanner";
 import { ReservationTile } from "@/components/main/tile/ReservationTile";
-import { safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
+import { cachedFindOneKeyValue, safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
 
 export const dynamicParams = false;
 
@@ -21,7 +21,8 @@ export default async function MenuPage({
 }: {
 	params: { slug: MenuType };
 }) {
-	const menu = await safeFindOneKeyValueAction(slug, menuSchema);
+	const getMenu = cachedFindOneKeyValue(slug, menuSchema);
+	const menu = await getMenu();
 	return (
 		<main>
 			<ImageBanner imageSource={menu?.bannerImage} size={"fixed"}>

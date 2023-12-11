@@ -2,6 +2,7 @@ import { SafeAction } from "next-safe-action";
 import { z } from "zod";
 import { findOneFileAction } from "../actions/file";
 import { findOneKeyValueAction, upsertKeyValueAction } from "../actions/keyValue";
+import { unstable_cache } from "next/cache";
 
 export async function callServerAction<Schema extends z.ZodTypeAny, Data>(serverAction: SafeAction<Schema, Data>, input: z.input<Schema>) {
     const result = await serverAction(input);
@@ -25,4 +26,8 @@ export async function safeUpsertKeyValueAction<Schema extends z.ZodTypeAny>(key:
         return kvp?.key ? true : false;
     }
     return false;
+}
+
+export function cachedFindOneKeyValue<Schema extends z.ZodTypeAny>(key: string, schema: Schema) {
+    return unstable_cache(() => safeFindOneKeyValueAction(key, schema), [key], { tags: [key] })
 }

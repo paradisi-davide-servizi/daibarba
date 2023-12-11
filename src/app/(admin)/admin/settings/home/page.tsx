@@ -6,13 +6,14 @@ import { SiteForm } from "@/components/admin/SiteForm";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { homeSchema } from "@/lib/db/schema/home";
 import { HomeForm } from "@/components/admin/HomeForm";
-import { callServerAction, safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
+import { cachedFindOneKeyValue, callServerAction, safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
 import { findManyFilesAction } from "@/lib/actions/file";
 
+const getHome = cachedFindOneKeyValue("home", homeSchema);
 
 export default async function HomePage() {
-	const values = await safeFindOneKeyValueAction("home", homeSchema);
 	const images = await callServerAction(findManyFilesAction, {});
+	const values = await getHome();
 	return (
 		<main>
 			<Container>
