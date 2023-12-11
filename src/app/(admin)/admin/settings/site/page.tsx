@@ -4,9 +4,11 @@ import { siteSchema } from "@/lib/db/schema/site";
 import { SiteForm } from "@/components/admin/SiteForm";
 import { callServerAction, safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
 import { findManyFilesAction } from "@/lib/actions/file";
+import { unstable_noStore } from "next/cache";
 
 
 export default async function BusinessInfoPage() {
+	unstable_noStore();
 	const values = await safeFindOneKeyValueAction(
 		"site",
 		siteSchema

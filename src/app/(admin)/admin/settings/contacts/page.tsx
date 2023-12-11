@@ -6,9 +6,10 @@ import { MenuForm } from "@/components/admin/MenuForm";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { callServerAction, safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
 import { findManyFilesAction } from "@/lib/actions/file";
+import { unstable_noStore } from "next/cache";
 
 export default async function ContactsPage() {
-
+	unstable_noStore();
 	const values = await safeFindOneKeyValueAction("contacts", contactsSchema);
 	const images = await callServerAction(findManyFilesAction, {});
 	return (

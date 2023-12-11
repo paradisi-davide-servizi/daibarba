@@ -6,6 +6,7 @@ import { SiteForm } from "@/components/admin/SiteForm";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { cacheFindOneKeyValue, callServerAction, safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
 import { findManyFilesAction } from "@/lib/actions/file";
+import { unstable_noStore } from "next/cache";
 
 export const dynamicParams = false;
 
@@ -20,8 +21,8 @@ export default async function TodaysMenuPage({
 }: {
 	params: { slug: MenuType };
 }) {
-	const findMenu = cacheFindOneKeyValue(slug, menuSchema, 1);
-	const menu = await findMenu();
+	unstable_noStore();
+	const menu = await safeFindOneKeyValueAction(slug, menuSchema);
 	const images = await callServerAction(findManyFilesAction, {});
 	return (
 		<main>

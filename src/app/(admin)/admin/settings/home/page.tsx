@@ -8,9 +8,10 @@ import { homeSchema } from "@/lib/db/schema/home";
 import { HomeForm } from "@/components/admin/HomeForm";
 import { callServerAction, safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
 import { findManyFilesAction } from "@/lib/actions/file";
-
+import { unstable_noStore } from "next/cache";
 
 export default async function HomePage() {
+	unstable_noStore();
 	const values = await safeFindOneKeyValueAction("home", homeSchema);
 	const images = await callServerAction(findManyFilesAction, {});
 	return (
