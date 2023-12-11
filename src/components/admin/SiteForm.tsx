@@ -1,6 +1,6 @@
 "use client";
 
-import { siteSchema, updateSiteSchema } from "@/lib/db/schema/site";
+import { siteSchema } from "@/lib/db/schema/site";
 import { safeUpsertKeyValueAction } from "@/lib/utils/actionUtils";
 import { z } from "zod";
 import AutoForm, { AutoFormSubmit } from "../ui/auto-form";
@@ -17,7 +17,7 @@ export function SiteForm({
 	return (
 		<AutoForm
 			values={values}
-			formSchema={updateSiteSchema}
+			formSchema={siteSchema}
 			onSubmit={async (formData) => {
 				await updateSiteAction(formData);
 			}}
