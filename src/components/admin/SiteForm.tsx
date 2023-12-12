@@ -5,7 +5,6 @@ import { safeUpsertKeyValueAction } from "@/lib/utils/actionUtils";
 import { z } from "zod";
 import AutoForm, { AutoFormSubmit } from "../ui/auto-form";
 import { StorageFile } from "@/lib/db/schema/file";
-import { updateSiteAction } from "@/actions/site";
 
 export function SiteForm({
 	values,
@@ -19,7 +18,7 @@ export function SiteForm({
 			values={values}
 			formSchema={siteSchema}
 			onSubmit={async (formData) => {
-				await updateSiteAction(formData);
+				await safeUpsertKeyValueAction("site", siteSchema, formData);
 			}}
 			fieldConfig={{
 				logo: {

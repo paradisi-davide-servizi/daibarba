@@ -5,7 +5,7 @@ import AutoForm, { AutoFormSubmit } from "../ui/auto-form";
 import { homeSchema } from "@/lib/db/schema/home";
 import { safeUpsertKeyValueAction } from "@/lib/utils/actionUtils";
 import { StorageFile } from "@/lib/db/schema/file";
-import { updateHomeAction } from "@/actions/home";
+import { upsertKeyValueAction } from "@/lib/actions/keyValue";
 
 export function HomeForm({
 	values,
@@ -19,7 +19,7 @@ export function HomeForm({
 			values={values}
 			formSchema={homeSchema}
 			onSubmit={async (formData) => {
-				await updateHomeAction(formData);
+				await safeUpsertKeyValueAction("home", homeSchema, formData);
 			}}
 			fieldConfig={{
 				hero: {

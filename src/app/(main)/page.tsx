@@ -25,7 +25,7 @@ import {
 import { z } from "zod";
 import { CallToActionTile } from "@/components/main/tile/CallToActionTile";
 import { FaCircle, FaDotCircle } from "react-icons/fa";
-import { safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
+import { cacheFindOneKeyValue, safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
 import { ReservationTile } from "@/components/main/tile/ReservationTile";
 
 function HeroSection({ home }: { home?: z.infer<typeof homeSchema> }) {
@@ -143,16 +143,16 @@ function ContactsSection({
 }
 
 export default async function Home() {
-	const home = await safeFindOneKeyValueAction("home", homeSchema);
-	const contacts = await safeFindOneKeyValueAction(
+	const home = await cacheFindOneKeyValue("home", homeSchema)();
+	const contacts = await cacheFindOneKeyValue(
 		"contacts",
 		contactsSchema
-	);
+	)();
 
 	const menus = await Promise.all(
 		menuTypeArray.map(async (menuKey) => ({
 			menuKey,
-			menu: await safeFindOneKeyValueAction(menuKey, menuSchema),
+			menu: await cacheFindOneKeyValue(menuKey, menuSchema)(),
 		}))
 	);
 
