@@ -5,23 +5,23 @@ import { siteSchema } from "@/lib/db/schema/site";
 import { contactsSchema } from "@/lib/db/schema/contacts";
 import { StorageImage } from "@/lib/components/StorageImage";
 import { menuSchema, menuTypeArray } from "@/lib/db/schema/menu";
-import { cacheFindOneKeyValue, safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
+import { safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
 
 export default async function RootLayout({
 	children,
 }: {
 	children: React.ReactNode;
 }) {
-	const site = await cacheFindOneKeyValue("site", siteSchema)();
-	const contacts = await cacheFindOneKeyValue(
+	const site = await safeFindOneKeyValueAction("site", siteSchema);
+	const contacts = await safeFindOneKeyValueAction(
 		"contacts",
 		contactsSchema
-	)();
+	);
 
 	const menus = await Promise.all(
 		menuTypeArray.map(async (menuKey) => ({
 			menuKey,
-			menu: await cacheFindOneKeyValue(menuKey, menuSchema)(),
+			menu: await safeFindOneKeyValueAction(menuKey, menuSchema),
 		}))
 	);
 

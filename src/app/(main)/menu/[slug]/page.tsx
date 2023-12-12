@@ -7,7 +7,7 @@ import Image from "next/image";
 import { siteSchema } from "@/lib/db/schema/site";
 import { ImageBanner } from "@/components/main/banner/ImageBanner";
 import { ReservationTile } from "@/components/main/tile/ReservationTile";
-import { cacheFindOneKeyValue, safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
+import { safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
 
 export const dynamicParams = false;
 
@@ -21,7 +21,7 @@ export default async function MenuPage({
 }: {
 	params: { slug: MenuType };
 }) {
-	const menu = await cacheFindOneKeyValue(slug, menuSchema)();
+	const menu = await safeFindOneKeyValueAction(slug, menuSchema);
 	return (
 		<main>
 			<ImageBanner imageSource={menu?.bannerImage} size={"fixed"}>
@@ -29,7 +29,7 @@ export default async function MenuPage({
 			</ImageBanner>
 			<Container>
 				<Menu menu={menu} />
-				<ReservationTile text={"accent"}/>
+				<ReservationTile text={"accent"} href={menu?.reservationLink || ""}/>
 			</Container>
 		</main>
 	);

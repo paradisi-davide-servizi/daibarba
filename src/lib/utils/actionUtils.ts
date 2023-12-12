@@ -28,8 +28,3 @@ export async function safeUpsertKeyValueAction<Schema extends z.ZodTypeAny>(key:
     }
     return false;
 }
-
-export function cacheFindOneKeyValue<Schema extends z.ZodTypeAny>(key: string, schema: Schema, revalidate?: false | number) {
-    const tableName: typeof keyValues["_"]["name"] = "keyValues";
-    return unstable_cache(() => safeFindOneKeyValueAction(key, schema), [`${tableName}/${key}`], { tags: [`${tableName}/${key}`], revalidate });
-}

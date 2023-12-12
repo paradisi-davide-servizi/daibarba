@@ -56,6 +56,7 @@ function AutoForm<SchemaType extends z.AnyZodObject>({
 	});
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
+
 		const parsedValues = formSchema.safeParse(values);
 		if (!parsedValues.success) {
 			errorToast(parsedValues.error);
@@ -107,6 +108,7 @@ function AutoForm<SchemaType extends z.AnyZodObject>({
 					fieldConfig={fieldConfig}
 				/>
 				{children}
+				{/* {JSON.stringify(form.formState.errors)} */}
 			</form>
 		</Form>
 	);

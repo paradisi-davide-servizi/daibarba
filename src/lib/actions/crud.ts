@@ -38,9 +38,6 @@ export function getCRUDActions<
                 .insert(table)
                 .values(data)
                 .returning();
-            if (rows.length > 0) {
-                revalidateTag(tableName)
-            }
             return rows[0];
         }),
 
@@ -52,10 +49,6 @@ export function getCRUDActions<
                 .set(data)
                 .where(eq(keyColumn, key))
                 .returning();
-            if (rows.length > 0) {
-                revalidateTag(`${tableName}/${key}`)
-                revalidateTag(tableName)
-            }
             return rows[0];
         }),
 
@@ -70,10 +63,6 @@ export function getCRUDActions<
                     set: { ...(data as PgUpdateSetSource<TTable>) }
                 })
                 .returning();
-            if (rows.length > 0) {
-                revalidateTag(`${tableName}/${key}`)
-                revalidateTag(tableName)
-            }
             return rows[0];
         }),
 

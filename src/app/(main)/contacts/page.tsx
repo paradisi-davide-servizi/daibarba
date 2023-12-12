@@ -7,13 +7,13 @@ import { EmailLinks } from "@/components/main/contacts/EmailLinks";
 import { TelephoneNumberLinks } from "@/components/main/contacts/TelephoneLinks";
 import { Locations } from "@/components/main/contacts/Locations";
 import { Timetables } from "@/components/main/contacts/Timetable";
-import { cacheFindOneKeyValue, safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
+import { safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
 
 export default async function ContactsPage() {
-	const contacts = await cacheFindOneKeyValue(
+	const contacts = await safeFindOneKeyValueAction(
 		"contacts",
 		contactsSchema
-	)();
+	);
 	return (
 		<main>
 			<ImageBanner imageSource={contacts?.bannerImage} size={"fixed"}>

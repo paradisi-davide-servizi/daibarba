@@ -8,8 +8,8 @@ import { callServerAction, safeFindOneKeyValueAction } from "@/lib/utils/actionU
 import { findManyFilesAction } from "@/lib/actions/file";
 import { unstable_noStore } from "next/cache";
 
+export const dynamic = 'force-dynamic'
 export default async function ContactsPage() {
-	unstable_noStore();
 	const values = await safeFindOneKeyValueAction("contacts", contactsSchema);
 	const images = await callServerAction(findManyFilesAction, {});
 	return (

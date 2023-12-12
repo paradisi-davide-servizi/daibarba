@@ -25,7 +25,7 @@ import {
 import { z } from "zod";
 import { CallToActionTile } from "@/components/main/tile/CallToActionTile";
 import { FaCircle, FaDotCircle } from "react-icons/fa";
-import { cacheFindOneKeyValue, safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
+import { safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
 import { ReservationTile } from "@/components/main/tile/ReservationTile";
 
 function HeroSection({ home }: { home?: z.infer<typeof homeSchema> }) {
@@ -143,24 +143,23 @@ function ContactsSection({
 }
 
 export default async function Home() {
-	const home = await cacheFindOneKeyValue("home", homeSchema)();
-	const contacts = await cacheFindOneKeyValue(
-		"contacts",
-		contactsSchema
-	)();
+	
+	const site = await safeFindOneKeyValueAction("site", siteSchema);
+	const home = await safeFindOneKeyValueAction("home", homeSchema);
+	const contacts = await safeFindOneKeyValueAction("contacts",contactsSchema);
 
 	const menus = await Promise.all(
 		menuTypeArray.map(async (menuKey) => ({
 			menuKey,
-			menu: await cacheFindOneKeyValue(menuKey, menuSchema)(),
+			menu: await safeFindOneKeyValueAction(menuKey, menuSchema),
 		}))
 	);
 
 	return (
 		<main className="flex flex-col items-center">
 			<HeroSection home={home} />
-			<div className=" w-full md:max-w-5xl flex flex-col items-stretch p-5 md:py-8 gap-8 md:gap-12">
-				<ReservationTile text={"accent"} />
+			<div className=" w-full md:max-w-4xl flex flex-col items-stretch p-5 md:py-8 gap-8 md:gap-12">
+				<ReservationTile text={"accent"} href={site?.reservationLink || ""} />
 				{menus
 					.filter(({ menu }) => menu?.isVisible)
 					.map(({ menu, menuKey }, i) => (

@@ -7,11 +7,11 @@ import { BannerParallax } from "./BannerParallax";
 import { VariantProps, cva } from "class-variance-authority";
 
 export const imageBannerVariants = cva(
-	"absolute top-0 left-0 w-full h-full from-black from-10%",
+	"absolute top-0 left-0 w-full h-full from-[#000000dd] from-65% to-[#00000055] -z-10",
 	{
 		variants: {
 			gradient: {
-				default: "",
+				default: "bg-[#000000dd]",
 				to_r: "bg-gradient-to-r",
 				to_l: "bg-gradient-to-l",
 			},
@@ -48,7 +48,7 @@ export function ImageBanner({
 						storageName: "daibarba",
 						source: imageSource,
 					}}
-					className=" w-full h-full object-cover brightness-[35%]"
+					className=" w-full h-full object-cover"
 				/>
 			</BannerParallax>
 			<div className={imageBannerVariants({ gradient })} />

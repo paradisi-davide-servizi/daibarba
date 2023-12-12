@@ -4,7 +4,7 @@ import { MenuForm } from "../../../../../../components/admin/MenuForm";
 import { MenuType, menuSchema, menuTypeArray } from "@/lib/db/schema/menu";
 import { SiteForm } from "@/components/admin/SiteForm";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { cacheFindOneKeyValue, callServerAction, safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
+import { callServerAction, safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
 import { findManyFilesAction } from "@/lib/actions/file";
 import { unstable_noStore } from "next/cache";
 
@@ -16,12 +16,12 @@ export function generateStaticParams() {
 	}));
 }
 
+export const dynamic = 'force-dynamic'
 export default async function TodaysMenuPage({
 	params: { slug },
 }: {
 	params: { slug: MenuType };
 }) {
-	unstable_noStore();
 	const menu = await safeFindOneKeyValueAction(slug, menuSchema);
 	const images = await callServerAction(findManyFilesAction, {});
 	return (

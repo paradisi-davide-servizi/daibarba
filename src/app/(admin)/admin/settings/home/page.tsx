@@ -10,8 +10,8 @@ import { callServerAction, safeFindOneKeyValueAction } from "@/lib/utils/actionU
 import { findManyFilesAction } from "@/lib/actions/file";
 import { unstable_noStore } from "next/cache";
 
+export const dynamic = 'force-dynamic'
 export default async function HomePage() {
-	unstable_noStore();
 	const values = await safeFindOneKeyValueAction("home", homeSchema);
 	const images = await callServerAction(findManyFilesAction, {});
 	return (

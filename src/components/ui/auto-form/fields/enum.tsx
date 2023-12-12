@@ -35,11 +35,10 @@ export default function AutoFormEnum({
 			values = baseValues.map((value) => [value, value]);
 		}
 	}
-
 	function findItem(value: any) {
+		console.log(value)
 		return values.find((item) => item[0] === value);
 	}
-  
 	return (
 		<FormItem>
 			<FormLabel>
@@ -48,14 +47,13 @@ export default function AutoFormEnum({
 			</FormLabel>
 			<FormControl>
 				<Select
-					onValueChange={field.onChange}
 					defaultValue={field.value}
-          value={field.value}>
+					onValueChange={field.onChange}>
 					<SelectTrigger>
 						<SelectValue
 							className="w-full"
 							placeholder={
-								fieldConfigItem.inputProps?.placeholder
+								field.value || fieldConfigItem.inputProps?.placeholder 
 							}>
 							{field.value
 								? findItem(field.value)?.[1]
