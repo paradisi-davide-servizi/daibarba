@@ -41,8 +41,8 @@ export function MainNavBar({
 				className={cn(
 					"p-4 top-0 md:left-0 w-full h-24 md:h-screen md:w-32 bg-white flex flex-row md:flex-col-reverse z-50 shadow-2xl md:fixed"
 				)}>
-				<div className="w-screen md:w-[calc(100vw-8rem)] h-[calc(100dvh-6rem)] md:h-screen bg-white flex flex-col justify-between items-center p-8">
-					<div className=" tracking-wider font-bold  flex flex-col items-center uppercase text-2xl md:text-3xl gap-4 flex-1 justify-center">
+				<div className="w-screen md:w-[calc(100vw-8rem)] h-[calc(100dvh-6rem)] md:h-screen flex flex-col justify-between items-center p-8">
+					<div className=" tracking-wider font-bold  flex flex-col items-center uppercase text-2xl md:text-3xl gap-4 flex-1 justify-start md:justify-center">
 						{navItems}
 					</div>
 					<SocialNetworkLinks

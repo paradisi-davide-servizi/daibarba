@@ -17,7 +17,7 @@ export default async function ContactsPage() {
 	return (
 		<main>
 			<ImageBanner imageSource={contacts?.bannerImage} size={"fixed"}>
-				<div className=" text-7xl w-full h-full flex flex-row items-center justify-center text-white uppercase text-center tracking-widest">
+				<div className="text-4xl md:text-7xl w-full h-full flex flex-row items-center justify-center text-white uppercase text-center tracking-widest">
 					contatti
 				</div>
 			</ImageBanner>

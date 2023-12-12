@@ -7,13 +7,13 @@ import { BannerParallax } from "./BannerParallax";
 import { VariantProps, cva } from "class-variance-authority";
 
 export const imageBannerVariants = cva(
-	"absolute top-0 left-0 w-full h-full from-[#000000dd] from-65% to-[#00000055] -z-10",
+	"absolute top-0 left-0 w-full h-full bg-[#000000aa] from-[#000000bb] from-65% -z-10",
 	{
 		variants: {
 			gradient: {
-				default: "bg-[#000000dd]",
-				to_r: "bg-gradient-to-r",
-				to_l: "bg-gradient-to-l",
+				default: "md:bg-[#000000aa]",
+				to_r: "md:bg-transparent md:bg-gradient-to-r",
+				to_l: "md:bg-transparent md:bg-gradient-to-l",
 			},
 		},
 		defaultVariants: {

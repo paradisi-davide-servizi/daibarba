@@ -25,7 +25,7 @@ export default async function MenuPage({
 	return (
 		<main>
 			<ImageBanner imageSource={menu?.bannerImage} size={"fixed"}>
-				<div className=" text-7xl w-full h-full flex flex-row items-center justify-center text-white uppercase text-center tracking-widest">{menu?.title}</div>
+				<div className="text-4xl md:text-7xl w-full h-full flex flex-row items-center justify-center text-white uppercase text-center tracking-widest">{menu?.title}</div>
 			</ImageBanner>
 			<Container>
 				<Menu menu={menu} />

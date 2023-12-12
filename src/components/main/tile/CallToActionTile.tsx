@@ -2,7 +2,7 @@ import React from "react";
 import { Tile } from "./Tile";
 import { VariantProps, cva } from "class-variance-authority";
 
-const ctaTileVariants = cva("w-full h-20 md:h-24 border-2 border-accent-foreground", {
+const ctaTileVariants = cva("w-full min-h-[4rem] md:min-h-[6rem] border-2 border-accent-foreground", {
 	variants: {
 		text: {
 			default: "",

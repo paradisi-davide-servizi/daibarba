@@ -74,7 +74,7 @@ function MenuSection({
 			<div className=" flex flex-col">
 				<div
 					className={cn(
-						" text-4xl uppercase tracking-widest font-semibold  from-[#D6AD60] to-[#B68D40]  text-white p-8",
+						" text-2xl md:text-4xl uppercase tracking-widest font-semibold  from-[#D6AD60] to-[#B68D40]  text-white px-8 py-6",
 						align === "end"
 							? "justify-start text-left bg-gradient-to-l"
 							: "justify-end text-right bg-gradient-to-r"
@@ -84,24 +84,22 @@ function MenuSection({
 				<ImageBanner
 					imageSource={menu?.bannerImage}
 					gradient={align === "start" ? "to_r" : "to_l"}>
-					<Container className="">
-						<div className="flex flex-row items-start">
-							<div
-								className={cn(
-									" flex flex-row w-full h-full items-center",
-									align === "start"
-										? "justify-start text-left"
-										: "justify-end text-right"
-								)}>
-								<div className="flex flex-col md:w-[65%] relative text-white gap-4 md:gap-8">
-									<div className=" text-justify text-lg">
-										{menu?.description}
-									</div>
-									<CallToActionTile
-										href={href}
-										label={menu?.callToAction || ""}
-									/>
+					<Container className=" absolute top-0 left-0 h-full w-full">
+						<div
+							className={cn(
+								" flex flex-row w-full h-full items-center",
+								align === "start"
+									? "justify-start text-left"
+									: "justify-end text-right"
+							)}>
+							<div className="flex flex-col md:w-[65%] relative text-white gap-4 md:gap-8 w-full h-full">
+								<div className=" text-justify text-md md:text-lg flex-1">
+									<div className=" flex flex-col items-center justify-center h-full">{menu?.description}</div>
 								</div>
+								<CallToActionTile
+									href={href}
+									label={menu?.callToAction || ""}
+								/>
 							</div>
 						</div>
 					</Container>
@@ -113,7 +111,9 @@ function MenuSection({
 
 function ContactsSection({
 	contacts,
+	align,
 }: {
+	align: "start" | "end";
 	contacts?: z.infer<typeof contactsSchema>;
 }) {
 	return (
@@ -122,31 +122,44 @@ function ContactsSection({
 				size={15}
 				className=" text-accent-foreground self-center"
 			/>
-			<ImageBanner imageSource={contacts?.bannerImage} gradient={"to_l"}>
-				<Container>
-					<div className="flex flex-col md:flex-row justify-start items-center gap-4">
-						<GoogleMap
-							zoom={15}
-							lang="it"
-							className="w-full h-96 md:w-[35vw]"
-							location={contacts?.locations?.[0]}
-						/>
-						<Timetables
-							className=" text-xl md:text-2xl	flex flex-col items-center justify-end text-white text-center"
-							timetables={contacts?.timeTables}
-						/>
-					</div>
-				</Container>
-			</ImageBanner>
+			<div className=" flex flex-col">
+				<div
+					className={cn(
+						" text-2xl md:text-4xl uppercase tracking-widest font-semibold  from-[#D6AD60] to-[#B68D40]  text-white px-8 py-6",
+						align === "end"
+							? "justify-start text-left bg-gradient-to-l"
+							: "justify-end text-right bg-gradient-to-r"
+					)}>
+					contatti
+				</div>
+				<ImageBanner imageSource={contacts?.bannerImage}>
+					<Container>
+						<div className="flex flex-col md:flex-row justify-start items-center gap-4">
+							<GoogleMap
+								zoom={15}
+								lang="it"
+								className="w-full h-96 md:w-[35vw]"
+								location={contacts?.locations?.[0]}
+							/>
+							<Timetables
+								className=" text-xl md:text-2xl gap-y-4	flex flex-col items-center justify-end text-white text-center"
+								timetables={contacts?.timeTables}
+							/>
+						</div>
+					</Container>
+				</ImageBanner>
+			</div>
 		</>
 	);
 }
 
 export default async function Home() {
-	
 	const site = await safeFindOneKeyValueAction("site", siteSchema);
 	const home = await safeFindOneKeyValueAction("home", homeSchema);
-	const contacts = await safeFindOneKeyValueAction("contacts",contactsSchema);
+	const contacts = await safeFindOneKeyValueAction(
+		"contacts",
+		contactsSchema
+	);
 
 	const menus = await Promise.all(
 		menuTypeArray.map(async (menuKey) => ({
@@ -159,7 +172,10 @@ export default async function Home() {
 		<main className="flex flex-col items-center">
 			<HeroSection home={home} />
 			<div className=" w-full md:max-w-4xl flex flex-col items-stretch p-5 md:py-8 gap-8 md:gap-12">
-				<ReservationTile text={"accent"} href={site?.reservationLink || ""} />
+				<ReservationTile
+					text={"accent"}
+					href={site?.reservationLink || ""}
+				/>
 				{menus
 					.filter(({ menu }) => menu?.isVisible)
 					.map(({ menu, menuKey }, i) => (
@@ -170,7 +186,10 @@ export default async function Home() {
 							align={i % 2 === 0 ? "start" : "end"}
 						/>
 					))}
-				<ContactsSection contacts={contacts} />
+				<ContactsSection
+					contacts={contacts}
+					align={menus.length % 2 === 0 ? "start" : "end"}
+				/>
 			</div>
 		</main>
 	);
