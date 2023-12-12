@@ -36,7 +36,6 @@ export default function AutoFormEnum({
 		}
 	}
 	function findItem(value: any) {
-		console.log(value)
 		return values.find((item) => item[0] === value);
 	}
 	return (

@@ -8,5 +8,4 @@ export const heroSchema = z.object({
 })
 export const homeSchema = z.object({
 	hero: heroSchema,
-	timetablesImage: z.string().optional(),
 });

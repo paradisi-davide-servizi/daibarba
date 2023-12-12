@@ -33,16 +33,6 @@ export function HomeForm({
 								]
 						),
 					},
-				},
-				timetablesImage: {
-					fieldType: "select",
-					values: images.map(
-						(image) =>
-							[image.storagePath, image.storagePath] as [
-								string,
-								string
-							]
-					),
 				}
 			}}>
 			<AutoFormSubmit>Salva impostazioni</AutoFormSubmit>
