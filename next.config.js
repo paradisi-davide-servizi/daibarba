@@ -2,6 +2,7 @@
 const nextConfig = {
 	env: {
 		DATABASE_URL: process.env.DATABASE_URL,
+		REDEPLOY_URL: process.env.REDEPLOY_URL,
 	},
 	images: {
 		remotePatterns: [
