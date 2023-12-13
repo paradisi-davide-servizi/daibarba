@@ -35,35 +35,40 @@ export function MainFooter({
 }) {
 	return (
 		<Container className="bg-stone-900 text-white py-8">
-			<div className=" flex flex-col md:flex-row w-full md:justify-between items-center md:items-start gap-y-8">
-				{siteLogo}
-				<div className=" flex flex-col items-center">
-					<div className=" font-semibold text-xl uppercase text-accent-foreground">
-						{siteName}
+			<div className="flex flex-col gap-y-8">
+				<div className=" flex flex-col md:flex-row w-full md:justify-between items-center md:items-start gap-y-8">
+					<div className=" flex flex-col items-center">
+						<div className=" font-semibold text-xl uppercase text-accent-foreground">
+							{siteName}
+						</div>
+						<Locations
+							locations={locations}
+							className="flex flex-col gap-y-1 items-center md:items-start max-w-xs text-center"
+						/>
 					</div>
-					<Locations
-						locations={locations}
-						className="flex flex-col gap-y-1 items-center md:items-start max-w-xs text-center"
-					/>
-				</div>
-				<div className=" text-center flex flex-col items-center justify-center">
-					<div className=" font-semibold text-xl uppercase  text-accent-foreground">
-						Contattaci
+					<div className=" text-center flex flex-col items-center justify-center gap-y-1">
+						<div className=" font-semibold text-xl uppercase  text-accent-foreground">
+							Contattaci
+						</div>
+						<TelephoneNumberLinks
+							telephoneNumbers={telephoneNumbers}
+							className="flex flex-col gap-y-1 items-center md:items-start text-center"
+						/>
+						<EmailLinks
+							emails={emails}
+							className="flex flex-col gap-y-1 items-center md:items-start text-center"
+						/>
+						<SocialNetworkLinks
+							iconSize={25}
+							socials={socials}
+							className=" flex flex-row gap-x-2 self-center pt-3"
+						/>
 					</div>
-					<TelephoneNumberLinks
-						telephoneNumbers={telephoneNumbers}
-						className="flex flex-col gap-y-1 items-center md:items-start text-center"
-					/>
-					<EmailLinks
-						emails={emails}
-						className="flex flex-col gap-y-1 items-center md:items-start text-center"
-					/>
+					{siteLogo}
 				</div>
-				<SocialNetworkLinks
-					iconSize={25}
-					socials={socials}
-					className=" flex flex-row gap-x-2 self-center"
-				/>
+				<div className=" flex flex-col items-center text-sm text-stone-400">
+					dai barba p iva etc etc etc
+				</div>
 			</div>
 		</Container>
 	);

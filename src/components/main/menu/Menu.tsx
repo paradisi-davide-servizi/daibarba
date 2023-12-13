@@ -24,25 +24,29 @@ function MenuEntry({
 
 	return (
 		<div className="flex flex-row justify-between items-start gap-x-8">
-			<p>
-				<span className=" font-semibold">{menuEntry.name}</span>
-				{menuEntry.description && (
-					<span className=" font-semibold">: </span>
+			<div>
+				<p>
+					<span className=" font-semibold">{menuEntry.name}</span>
+					{menuEntry.description && (
+						<span className=" font-semibold">: </span>
+					)}
+					{menuEntry.description && (
+						<span>{menuEntry.description}</span>
+					)}
+				</p>
+				{allergens.length > 0 && (
+					<span className=" text-sm font-semibold">
+						{" "}
+						*({allergens.join("/")})
+					</span>
 				)}
-				{menuEntry.description && <span>{menuEntry.description}</span>}
-				<div>
-					{allergens.length > 0 && (
-						<span className=" text-sm font-semibold">
-							{" "}
-							*({allergens.join("/")})
-						</span>
-					)}
-					{menuEntry.frozenAtOrigin && (
-						<span className=" text-sm font-semibold"> **</span>
-					)}
-				</div>
-			</p>
-			{menuEntry.price && <p className=" font-semibold ">{menuEntry.price}€</p>}
+				{menuEntry.frozenAtOrigin && (
+					<span className=" text-sm font-semibold"> **</span>
+				)}
+			</div>
+			{menuEntry.price && (
+				<p className=" font-semibold ">{menuEntry.price}€</p>
+			)}
 		</div>
 	);
 }

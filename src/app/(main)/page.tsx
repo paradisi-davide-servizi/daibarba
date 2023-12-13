@@ -84,7 +84,7 @@ function MenuSection({
 				<ImageBanner
 					imageSource={menu?.bannerImage}
 					gradient={align === "start" ? "to_r" : "to_l"}>
-					<Container className=" absolute top-0 left-0 h-full w-full">
+					<Container>
 						<div
 							className={cn(
 								" flex flex-row w-full h-full items-center",
@@ -171,7 +171,7 @@ export default async function Home() {
 	return (
 		<main className="flex flex-col items-center">
 			<HeroSection home={home} />
-			<div className=" w-full md:max-w-4xl flex flex-col items-stretch py-5 md:py-8 gap-8 md:gap-12">
+			<div className=" w-full md:max-w-4xl flex flex-col items-stretch p-5 md:py-8 gap-8 md:gap-12">
 				<ReservationTile
 					text={"accent"}
 					href={site?.reservationLink || ""}
