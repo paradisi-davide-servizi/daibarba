@@ -31,7 +31,7 @@ function MenuEntry({
 				)}
 				{menuEntry.description && <span>{menuEntry.description}</span>}
 				<div>
-					{allergens && (
+					{allergens.length > 0 && (
 						<span className=" text-sm font-semibold">
 							{" "}
 							*({allergens.join("/")})
@@ -42,7 +42,7 @@ function MenuEntry({
 					)}
 				</div>
 			</p>
-			<p className=" font-semibold ">{menuEntry.price}€</p>
+			{menuEntry.price && <p className=" font-semibold ">{menuEntry.price}€</p>}
 		</div>
 	);
 }

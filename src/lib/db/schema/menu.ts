@@ -27,7 +27,7 @@ export const allergensSchema = z.object({
 
     seven: z.boolean()
         .optional()
-        .describe("Latte e prodotti a base di latte (6)"),
+        .describe("Latte e prodotti a base di latte (7)"),
 
     eight: z.boolean()
         .optional()
