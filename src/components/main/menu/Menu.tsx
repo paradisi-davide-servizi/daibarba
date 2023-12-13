@@ -1,6 +1,7 @@
 import { Separator } from "@/components/ui/separator";
 import StyledLink from "@/lib/components/StyledLink";
 import {
+	allergensSchema,
 	menuCategorySchema,
 	menuEntrySchema,
 	menuSchema,
@@ -13,6 +14,14 @@ function MenuEntry({
 }: {
 	menuEntry: z.infer<typeof menuEntrySchema>;
 }) {
+	const allergenKeys = Object.keys(allergensSchema.shape) as (keyof z.infer<
+		typeof allergensSchema
+	>)[];
+	const allergens = allergenKeys
+		.map((key, i) => [menuEntry.allergens?.[key], i] as [boolean, number])
+		.filter(([value]) => value)
+		.map(([, number]) => number + 1);
+
 	return (
 		<div className="flex flex-row justify-between items-start gap-x-8">
 			<p>
@@ -21,6 +30,17 @@ function MenuEntry({
 					<span className=" font-semibold">: </span>
 				)}
 				{menuEntry.description && <span>{menuEntry.description}</span>}
+				<div>
+					{allergens && (
+						<span className=" text-sm font-semibold">
+							{" "}
+							*({allergens.join("/")})
+						</span>
+					)}
+					{menuEntry.frozenAtOrigin && (
+						<span className=" text-sm font-semibold"> **</span>
+					)}
+				</div>
 			</p>
 			<p className=" font-semibold ">{menuEntry.price}€</p>
 		</div>

@@ -3,59 +3,59 @@ import { z } from "zod";
 export const allergensSchema = z.object({
     one: z.boolean()
         .optional()
-        .describe("Cereali contenenti glutine"),
+        .describe("Cereali contenenti glutine (1)"),
 
     two: z.boolean()
         .optional()
-        .describe("Crostacei e prodotti a base di crostacei"),
+        .describe("Crostacei e prodotti a base di crostacei (2)"),
 
     three: z.boolean()
         .optional()
-        .describe("Uova e prodotti a base di uova"),
+        .describe("Uova e prodotti a base di uova (3)"),
 
     four: z.boolean()
         .optional()
-        .describe("Pesce e prodotti della pesca"),
+        .describe("Pesce e prodotti della pesca (4)"),
 
     five: z.boolean()
         .optional()
-        .describe("Arachidi e prodotti a base di arachidi"),
+        .describe("Arachidi e prodotti a base di arachidi (5)"),
 
     six: z.boolean()
         .optional()
-        .describe("Soia e prodotti a base di soia"),
+        .describe("Soia e prodotti a base di soia (6)"),
 
     seven: z.boolean()
         .optional()
-        .describe("Latte e prodotti a base di latte"),
+        .describe("Latte e prodotti a base di latte (6)"),
 
     eight: z.boolean()
         .optional()
-        .describe("Frutta a guscio"),
+        .describe("Frutta a guscio (8)"),
 
     nine: z.boolean()
         .optional()
-        .describe("Sedano e prodotti a base di sedano"),
+        .describe("Sedano e prodotti a base di sedano (9)"),
 
     ten: z.boolean()
         .optional()
-        .describe("Senape e prodotti a base di senape"),
+        .describe("Senape e prodotti a base di senape (10)"),
 
     eleven: z.boolean()
         .optional()
-        .describe("Semi di sesamo e prodotti a base di semi di sesamo"),
+        .describe("Semi di sesamo e prodotti a base di semi di sesamo (11)"),
 
     twelve: z.boolean()
         .optional()
-        .describe("Anidride solforosa e solfiti"),
+        .describe("Anidride solforosa e solfiti (12)"),
 
     thirteen: z.boolean()
         .optional()
-        .describe("Lupini e prodotti a base di lupini"),
+        .describe("Lupini e prodotti a base di lupini (13)"),
 
     fourteen: z.boolean()
         .optional()
-        .describe("Molluschi e prodotti a base di molluschi"),
+        .describe("Molluschi e prodotti a base di molluschi (14)"),
 })
 
 export const menuEntrySchema = z.object({
@@ -71,6 +71,7 @@ export const menuEntrySchema = z.object({
         .describe("Prezzo"),
 
     allergens: allergensSchema
+        .optional()
         .describe("Allergeni"),
 
     frozenAtOrigin: z.boolean()
