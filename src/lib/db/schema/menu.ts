@@ -106,11 +106,11 @@ export const menuSchema = z.object({
 
     bannerImage: z.string()
         .optional()
-        .describe("Immagine del menù"),
+        .describe("Immagine del banner home e pagina menù"),
 
     isVisible: z.boolean()
         .default(true)
-        .describe("Mostra menù"),
+        .describe("Mostra menù nella home e nella navbar"),
 
     categories: z.array(menuCategorySchema)
         .describe("Categorie del menù"),

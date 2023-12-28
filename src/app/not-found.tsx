@@ -2,10 +2,10 @@ import { Container } from "@/lib/components/Container";
 import React from "react";
 import { siteSchema } from "@/lib/db/schema/site";
 import { StorageImage } from "@/lib/components/StorageImage";
-import { safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
+import { getKeyValueAction } from "@/lib/utils/actionUtils";
 
 export default async function NotFound() {
-	const site = await safeFindOneKeyValueAction("site", siteSchema);
+	const site = await getKeyValueAction("site", siteSchema);
 	return (
 		<main>
 			<Container className="min-h-screen justify-center">

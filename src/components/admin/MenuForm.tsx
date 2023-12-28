@@ -3,7 +3,7 @@
 import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
 import { StorageFile, fileMetadataSchema } from "@/lib/db/schema/file";
 import { MenuType, menuSchema } from "@/lib/db/schema/menu";
-import { safeUpsertKeyValueAction } from "@/lib/utils/actionUtils";
+import { setKeyValueAction } from "@/lib/utils/actionUtils";
 import { z } from "zod";
 
 export function MenuForm({
@@ -20,7 +20,7 @@ export function MenuForm({
 			values={values}
 			formSchema={menuSchema}
 			onSubmit={async (formData) => {
-				await safeUpsertKeyValueAction(menuType, menuSchema, formData);
+				await setKeyValueAction(menuType, menuSchema, formData);
 			}}
 			fieldConfig={{
 				bannerImage: {

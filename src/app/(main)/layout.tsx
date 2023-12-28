@@ -5,15 +5,15 @@ import { siteSchema } from "@/lib/db/schema/site";
 import { contactsSchema } from "@/lib/db/schema/contacts";
 import { StorageImage } from "@/lib/components/StorageImage";
 import { menuSchema, menuTypeArray } from "@/lib/db/schema/menu";
-import { safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
+import { getKeyValueAction } from "@/lib/utils/actionUtils";
 
 export default async function RootLayout({
 	children,
 }: {
 	children: React.ReactNode;
 }) {
-	const site = await safeFindOneKeyValueAction("site", siteSchema);
-	const contacts = await safeFindOneKeyValueAction(
+	const site = await getKeyValueAction("site", siteSchema);
+	const contacts = await getKeyValueAction(
 		"contacts",
 		contactsSchema
 	);
@@ -21,7 +21,7 @@ export default async function RootLayout({
 	const menus = await Promise.all(
 		menuTypeArray.map(async (menuKey) => ({
 			menuKey,
-			menu: await safeFindOneKeyValueAction(menuKey, menuSchema),
+			menu: await getKeyValueAction(menuKey, menuSchema),
 		}))
 	);
 

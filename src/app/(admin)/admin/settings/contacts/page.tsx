@@ -4,13 +4,13 @@ import { contactsSchema } from "@/lib/db/schema/contacts";
 import { ContactsForm } from "@/components/admin/ContactsForm";
 import { MenuForm } from "@/components/admin/MenuForm";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { callServerAction, safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
+import { callServerAction, getKeyValueAction } from "@/lib/utils/actionUtils";
 import { findManyFilesAction } from "@/lib/actions/file";
 import { unstable_noStore } from "next/cache";
 
 export const dynamic = 'force-dynamic'
 export default async function ContactsPage() {
-	const values = await safeFindOneKeyValueAction("contacts", contactsSchema);
+	const values = await getKeyValueAction("contacts", contactsSchema);
 	const images = await callServerAction(findManyFilesAction, {});
 	return (
 		<main>

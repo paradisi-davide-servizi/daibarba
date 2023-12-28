@@ -25,15 +25,15 @@ import {
 import { z } from "zod";
 import { CallToActionTile } from "@/components/main/tile/CallToActionTile";
 import { FaCircle, FaDotCircle } from "react-icons/fa";
-import { safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
+import { getKeyValueAction } from "@/lib/utils/actionUtils";
 import { ReservationTile } from "@/components/main/tile/ReservationTile";
 
 function HeroSection({ home }: { home?: z.infer<typeof homeSchema> }) {
 	return (
 		<>
-			<ImageBanner size={"hero"} imageSource={home?.hero.image} priority>
+			<ImageBanner size={"hero"} imageSource={home?.hero.image} priority gradient={"light"}>
 				<Center>
-					<div className=" flex flex-col gap-2 uppercase tracking-widest text-center items-center justify-center">
+					{/* <div className=" flex flex-col gap-2 uppercase tracking-widest text-center items-center justify-center">
 						{home?.hero.prefix && (
 							<div className=" text-2xl md:text-3xl text-green-500">
 								{home?.hero.prefix}
@@ -49,7 +49,14 @@ function HeroSection({ home }: { home?: z.infer<typeof homeSchema> }) {
 								{home?.hero.postfix}
 							</div>
 						)}
-					</div>
+					</div> */}
+					<StorageImage
+						image={{
+							storageName: "daibarba",
+							source: home?.hero.overlayImage,
+						}}
+						className="w-5/6 h-5/6 object-contain"
+					/>
 				</Center>
 			</ImageBanner>
 		</>
@@ -94,7 +101,9 @@ function MenuSection({
 							)}>
 							<div className="flex flex-col md:w-[65%] relative text-white gap-4 md:gap-8 w-full h-full">
 								<div className=" text-justify text-md md:text-lg flex-1">
-									<div className=" flex flex-col items-center justify-center h-full">{menu?.description}</div>
+									<div className=" flex flex-col items-center justify-center h-full">
+										{menu?.description}
+									</div>
 								</div>
 								<CallToActionTile
 									href={href}
@@ -154,17 +163,14 @@ function ContactsSection({
 }
 
 export default async function Home() {
-	const site = await safeFindOneKeyValueAction("site", siteSchema);
-	const home = await safeFindOneKeyValueAction("home", homeSchema);
-	const contacts = await safeFindOneKeyValueAction(
-		"contacts",
-		contactsSchema
-	);
+	const site = await getKeyValueAction("site", siteSchema);
+	const home = await getKeyValueAction("home", homeSchema);
+	const contacts = await getKeyValueAction("contacts", contactsSchema);
 
 	const menus = await Promise.all(
 		menuTypeArray.map(async (menuKey) => ({
 			menuKey,
-			menu: await safeFindOneKeyValueAction(menuKey, menuSchema),
+			menu: await getKeyValueAction(menuKey, menuSchema),
 		}))
 	);
 

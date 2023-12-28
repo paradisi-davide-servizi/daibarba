@@ -3,7 +3,7 @@
 import { contactsSchema } from "@/lib/db/schema/contacts";
 import { z } from "zod";
 import AutoForm, { AutoFormSubmit } from "../ui/auto-form";
-import { safeUpsertKeyValueAction } from "@/lib/utils/actionUtils";
+import { setKeyValueAction } from "@/lib/utils/actionUtils";
 import { StorageFile } from "@/lib/db/schema/file";
 
 export function ContactsForm({
@@ -18,7 +18,7 @@ export function ContactsForm({
 			values={values}
 			formSchema={contactsSchema}
 			onSubmit={async (formData) => {
-				await safeUpsertKeyValueAction(
+				await setKeyValueAction(
 					"contacts",
 					contactsSchema,
 					formData

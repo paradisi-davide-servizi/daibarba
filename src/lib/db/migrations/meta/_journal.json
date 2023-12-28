@@ -1,13 +1,1 @@
-{
-  "version": "5",
-  "dialect": "pg",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "5",
-      "when": 1700551630734,
-      "tag": "0000_grey_the_renegades",
-      "breakpoints": true
-    }
-  ]
-}
+{"version":"5","dialect":"pg","entries":[{"idx":0,"version":"5","when":1700551630734,"tag":"0000_grey_the_renegades","breakpoints":true}]}

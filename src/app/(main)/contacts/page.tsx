@@ -7,10 +7,10 @@ import { EmailLinks } from "@/components/main/contacts/EmailLinks";
 import { TelephoneNumberLinks } from "@/components/main/contacts/TelephoneLinks";
 import { Locations } from "@/components/main/contacts/Locations";
 import { Timetables } from "@/components/main/contacts/Timetable";
-import { safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
+import { getKeyValueAction } from "@/lib/utils/actionUtils";
 
 export default async function ContactsPage() {
-	const contacts = await safeFindOneKeyValueAction(
+	const contacts = await getKeyValueAction(
 		"contacts",
 		contactsSchema
 	);

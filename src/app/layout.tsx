@@ -5,14 +5,14 @@ import { ThemeProvider } from "@/lib/components/ThemeProvider";
 import { cn } from "@/lib/utils";
 import AuthProvider from "@/lib/components/auth/AuthProvider";
 import { Toaster } from "@/components/ui/toaster";
-import { safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
+import { getKeyValueAction } from "@/lib/utils/actionUtils";
 import { siteSchema } from "@/lib/db/schema/site";
 import { getPublicUrl } from "@/lib/components/StorageImage";
 
 const inter = Lora({ subsets: ["latin"], weight: "variable" });
 
 export async function generateMetadata(): Promise<Metadata> {
-	const site = await safeFindOneKeyValueAction("site", siteSchema);
+	const site = await getKeyValueAction("site", siteSchema);
 	const icon = getPublicUrl("daibarba", site?.icon || "");
 	return {
 		title: site?.name,

@@ -2,13 +2,13 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Container }from "@/lib/components/Container";
 import { siteSchema } from "@/lib/db/schema/site";
 import { SiteForm } from "@/components/admin/SiteForm";
-import { callServerAction, safeFindOneKeyValueAction } from "@/lib/utils/actionUtils";
+import { callServerAction, getKeyValueAction } from "@/lib/utils/actionUtils";
 import { findManyFilesAction } from "@/lib/actions/file";
 import { unstable_noStore } from "next/cache";
 
 export const dynamic = 'force-dynamic'
 export default async function BusinessInfoPage() {
-	const values = await safeFindOneKeyValueAction(
+	const values = await getKeyValueAction(
 		"site",
 		siteSchema
 	);
