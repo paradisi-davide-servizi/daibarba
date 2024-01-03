@@ -33,6 +33,7 @@
     "@radix-ui/react-toast": "^1.1.5",
     "@radix-ui/react-toggle": "^1.0.3",
     "@supabase/auth-helpers-nextjs": "^0.8.7",
+    "@types/lodash": "^4.14.202",
     "@types/nodemailer": "^6.4.14",
     "@uidotdev/usehooks": "^2.4.1",
     "class-variance-authority": "^0.7.0",

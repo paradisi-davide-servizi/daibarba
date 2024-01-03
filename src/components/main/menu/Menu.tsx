@@ -69,9 +69,11 @@ function MenuCategory({
 			<hr className=" w-full border-[1px] border-accent-foreground my-4" />
 
 			<div className=" flex flex-col gap-y-4">
-				{menuCategory.entries.map((e, i) => (
-					<MenuEntry menuEntry={e} key={i} />
-				))}
+				{menuCategory.entries
+					.filter((e) => e.isVisible)
+					.map((e, i) => (
+						<MenuEntry menuEntry={e} key={i} />
+					))}
 			</div>
 		</div>
 	);
@@ -93,9 +95,11 @@ export default function Menu({ menu }: { menu?: z.infer<typeof menuSchema> }) {
 			)}
 			{menu?.categories && (
 				<div className=" flex flex-col gap-y-8">
-					{menu.categories.map((c, i) => (
-						<MenuCategory menuCategory={c} key={i} />
-					))}
+					{menu.categories
+						.filter((c) => c.isVisible)
+						.map((c, i) => (
+							<MenuCategory menuCategory={c} key={i} />
+						))}
 				</div>
 			)}
 			{menu?.footer && notEmpty(menu.footer) && (

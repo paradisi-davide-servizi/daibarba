@@ -1,6 +1,5 @@
 import _ from "lodash";
-import { EffectCallback, useCallback, useEffect, useRef, useState } from "react";
-import { proxy, useSnapshot } from "valtio";
+import { useCallback, useEffect, useState } from "react";
 
 type TypedEffectCallback<T> = (value: T) => void | (() => void);
 export function useEffectWhenChanged<T>(effect: TypedEffectCallback<T>, value: T) {
