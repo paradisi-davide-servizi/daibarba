@@ -1,11 +1,11 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import StorageFileApi from "@supabase/storage-js/dist/module/packages/StorageFileApi";
 import { findOneFileMetadataAction, upsertFileMetadataAction } from "../actions/fileMetadata";
-import { StorageFileMetadataPayload } from "../db/tables/fileMetadata";
 import { callServerAction } from "./actionUtils";
 import { generateBlurDataURL } from "./imageUtils";
 import { notEmpty } from "./typeUtils";
 import { FileObject } from "@supabase/storage-js"
+import { StorageFileMetadataPayload } from "../db/schema/fileMetadata";
 
 export function getMetadataPayloadHandle(file: File): {
 	mimeType: string,
