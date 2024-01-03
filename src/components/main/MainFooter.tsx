@@ -19,7 +19,7 @@ export function MainFooter({
 	contacts: z.infer<typeof contactsSchema>;
 }) {
 	return (
-		<Container className="bg-stone-900 text-white py-8">
+		<Container className="bg-stone-900 text-white py-16">
 			<div className=" flex flex-col w-full gap-4">
 				<div className=" flex flex-col md:flex-row w-full items-center md:items-start justify-between text-center gap-2">
 					<div className=" flex-shrink-0 font-semibold text-xl uppercase text-accent-foreground">
@@ -53,7 +53,7 @@ export function MainFooter({
 						</StyledLink>
 					)}
 				</div>
-				<div className="flex flex-row gap-4 w-full items-center justify-center">
+				<div className="flex flex-row gap-4 w-full items-center justify-center pt-4">
 					<SocialNetworkLinks
 						iconSize={25}
 						socials={contacts.socials}
