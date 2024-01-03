@@ -98,7 +98,7 @@ export default function Menu({ menu }: { menu?: z.infer<typeof menuSchema> }) {
 					))}
 				</div>
 			)}
-			{notEmpty(menu?.footer) && (
+			{menu?.footer && notEmpty(menu.footer) && (
 				<div className=" text-xl font-semibold">{menu.footer}</div>
 			)}
 		</div>
