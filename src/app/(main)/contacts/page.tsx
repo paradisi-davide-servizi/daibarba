@@ -26,22 +26,20 @@ export default async function ContactsPage() {
 						<div className=" font-semibold uppercase text-2xl text-accent-foreground">
 							Dove e quando
 						</div>
-						<Locations
-							locations={contacts?.locations}
-							className=" flex flex-col gap-y-4"
-						/>
-						<TelephoneNumberLinks
-							telephoneNumbers={contacts?.telephoneNumbers}
-							className=" flex flex-col gap-y-4"
-						/>
-						<EmailLinks
-							emails={contacts?.emails}
-							className=" flex flex-col gap-y-4"
-						/>
-						<Timetables
-							timetables={contacts?.timeTables}
-							className=" flex flex-col gap-y-4"
-						/>
+						<div className="flex flex-col gap-y-4">
+							<Locations locations={contacts?.locations} />
+						</div>
+						<div className="flex flex-col gap-y-4">
+							<TelephoneNumberLinks
+								telephoneNumbers={contacts?.telephoneNumbers}
+							/>
+						</div>
+						<div className="flex flex-col gap-y-4">
+							<EmailLinks emails={contacts?.emails} />
+						</div>
+						<div className="flex flex-col gap-y-4">
+							<Timetables timetables={contacts?.timeTables} />
+						</div>
 					</div>
 					<div className="relative order-2 md:order-1">
 						<div className=" mt-[100%]"></div>
