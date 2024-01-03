@@ -1,11 +1,11 @@
 "use server"
 
-import { action, authAction } from "."
-import { signInSchema, signUpSchema } from "@/lib/db/schema/auth"
 import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation"
+import { redirect } from "next/navigation";
 import { z } from "zod";
+import { action, authAction } from ".";
+import { signInSchema, signUpSchema } from "../db/schema/auth";
 
 export const signInAction = action(signInSchema, async (input, ctx) => {
     const data = signInSchema.parse(input);

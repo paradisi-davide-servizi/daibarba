@@ -1,10 +1,10 @@
 import { MainFooter } from "@/components/main/MainFooter";
 import { MainNavBar } from "@/components/main/navbar/MainNavBar";
-import StyledLink from "@/lib/components/StyledLink";
-import { siteSchema } from "@/lib/db/schema/site";
-import { contactsSchema } from "@/lib/db/schema/contacts";
 import { StorageImage } from "@/lib/components/StorageImage";
-import { menuSchema, menuTypeArray } from "@/lib/db/schema/menu";
+import StyledLink from "@/lib/components/StyledLink";
+import { contactsSchema } from "@/lib/db/schema/keyValue/contacts";
+import { menuTypeArray, menuSchema } from "@/lib/db/schema/keyValue/menu";
+import { siteSchema } from "@/lib/db/schema/keyValue/site";
 import { getKeyValueAction } from "@/lib/utils/actionUtils";
 
 export default async function RootLayout({
@@ -12,17 +12,20 @@ export default async function RootLayout({
 }: {
 	children: React.ReactNode;
 }) {
-	const site = await getKeyValueAction("site", siteSchema);
-	const contacts = await getKeyValueAction(
+	const { data: site } = await getKeyValueAction("site", siteSchema);
+	const { data: contacts } = await getKeyValueAction(
 		"contacts",
 		contactsSchema
 	);
 
 	const menus = await Promise.all(
-		menuTypeArray.map(async (menuKey) => ({
-			menuKey,
-			menu: await getKeyValueAction(menuKey, menuSchema),
-		}))
+		menuTypeArray.map(async (menuKey) => {
+			const { data: menu } = await getKeyValueAction(menuKey, menuSchema);
+			return {
+				menuKey,
+				menu,
+			};
+		})
 	);
 
 	return (

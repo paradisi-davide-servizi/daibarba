@@ -1,3 +1,4 @@
+"use server"
 import "server-only"
 
 import { createClientComponentClient, createRouteHandlerClient, createServerActionClient } from "@supabase/auth-helpers-nextjs";

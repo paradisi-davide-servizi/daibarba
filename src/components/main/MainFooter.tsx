@@ -1,22 +1,14 @@
 import { Container } from "@/lib/components/Container";
-import Link from "next/link";
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { z } from "zod";
-import { FaFacebookF, FaInstagram, FaTripadvisor } from "react-icons/fa";
-import { FaThreads, FaXTwitter } from "react-icons/fa6";
-import {
-	socialSchema,
-	emailSchema,
-	locationSchema,
-	telephoneNumberSchema,
-} from "@/lib/db/schema/contacts";
-import {
-	SocialNetworkLink,
-	SocialNetworkLinks,
-} from "./contacts/SocialNetworkLinks";
-import { TelephoneNumberLinks } from "./contacts/TelephoneLinks";
+
 import { EmailLinks } from "./contacts/EmailLinks";
 import { Locations } from "./contacts/Locations";
+import {
+	SocialNetworkLinks
+} from "./contacts/SocialNetworkLinks";
+import { TelephoneNumberLinks } from "./contacts/TelephoneLinks";
+import { emailSchema, socialSchema, locationSchema, telephoneNumberSchema } from "@/lib/db/schema/keyValue/contacts";
 
 export function MainFooter({
 	emails,
@@ -67,7 +59,7 @@ export function MainFooter({
 					{siteLogo}
 				</div>
 				<div className=" flex flex-col items-center text-sm text-stone-400">
-					dai barba p iva etc etc etc
+					DAI BARBA © 2024 P. IVA 12744940961				
 				</div>
 			</div>
 		</Container>

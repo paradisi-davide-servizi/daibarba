@@ -1,41 +1,31 @@
-import { Container } from "@/lib/components/Container";
-import React from "react";
-import { MenuForm } from "../../../../../../components/admin/MenuForm";
-import { MenuType, menuSchema, menuTypeArray } from "@/lib/db/schema/menu";
-import { SiteForm } from "@/components/admin/SiteForm";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { callServerAction, getKeyValueAction } from "@/lib/utils/actionUtils";
-import { findManyFilesAction } from "@/lib/actions/file";
-import { unstable_noStore } from "next/cache";
+"use client";
 
-export const dynamicParams = false;
+import SettingsForm from "@/components/admin/SettingsForm";
+import SettingsPage from "@/components/admin/SettingsPage";
+import { MenuType, menuSchema, menuFormConfig } from "@/lib/db/schema/keyValue/menu";
+import {
+	isExecutingAction,
+	useAction,
+	useKeyValue,
+} from "@/lib/utils/actionHooks";
+import { setKeyValueAction } from "@/lib/utils/actionUtils";
 
-export function generateStaticParams() {
-	return menuTypeArray.map((menu) => ({
-		slug: menu,
-	}));
-}
-
-export const dynamic = 'force-dynamic'
-export default async function TodaysMenuPage({
+export default function BusinessInfoPage({
 	params: { slug },
 }: {
 	params: { slug: MenuType };
 }) {
-	const menu = await getKeyValueAction(slug, menuSchema);
-	const images = await callServerAction(findManyFilesAction, {});
+	const menu = useKeyValue(slug, menuSchema);
 	return (
-		<main>
-			<Container>
-				<Card>
-					<CardHeader>
-						<CardTitle className=" uppercase">{menu?.title || slug}</CardTitle>
-					</CardHeader>
-					<CardContent>
-						<MenuForm values={menu} menuType={slug} images={images || []}/>
-					</CardContent>
-				</Card>
-			</Container>
-		</main>
+		<SettingsPage title={slug} isLoading={isExecutingAction(menu)}>
+			<SettingsForm
+				values={menu.data}
+				submitText="Salva menù"
+				formConfig={menuFormConfig()}
+				onSubmit={async (input) => {
+					await setKeyValueAction(slug, menuSchema, input);
+				}}
+			/>
+		</SettingsPage>
 	);
 }

@@ -1,9 +1,7 @@
-import { GetColumnData, InferColumnsDataTypes, InferInsertModel, InferModelFromColumns, InferSelectModel, eq } from "drizzle-orm";
-import { action, authAction } from ".";
-import { BuildInsertSchema, createInsertSchema, createSelectSchema } from "drizzle-zod";
+import { GetColumnData, eq } from "drizzle-orm";
 import { PgColumn, PgInsertValue, PgTable, PgUpdateSetSource, } from "drizzle-orm/pg-core";
 import { z } from "zod";
-import { revalidateTag, unstable_cache } from "next/cache";
+import { action, authAction } from ".";
 
 type KeyOfType<T, V> = keyof {
     [P in keyof T as T[P] extends V ? P : never]: any
@@ -11,29 +9,28 @@ type KeyOfType<T, V> = keyof {
 
 export function getCRUDActions<
     TTable extends PgTable,
-    TTableName extends TTable["_"]["name"],
-    TTableKey extends KeyOfType<TTable, TPKeyColumn>,
+    TTableSchema extends z.AnyZodObject,
     TPKeyColumn extends TTable[TTableKey] & PgColumn,
-    TPKeyType extends GetColumnData<TPKeyColumn, 'query'>,
-    TTableKeySchema extends z.ZodType<TPKeyType>>(
+    TTableKey extends KeyOfType<TTable, TPKeyColumn>,
+    TPKeyType extends GetColumnData<TPKeyColumn, 'query'>>(
         table: TTable,
-        tableName: TTableName,
-        tableKey: TTableKey,
-        tableKeySchema: { [k in TTableKey]: TTableKeySchema }) {
+        tableSchema: TTableSchema,
+        tableKey: {
+            keyName: TTableKey,
+            keySchema: { [k in TTableKey]: z.ZodType<TPKeyType> }
+        }) {
 
-    const keyColumn = table[tableKey] as PgColumn;
+    const keyColumn = table[tableKey.keyName] as PgColumn;
 
-    const insertSchema = createInsertSchema(table);
-    const updateSchema = createSelectSchema(table);
-
-    const keySchema = z.object(tableKeySchema)
+    const keySchema = z.object(tableKey.keySchema)
 
     const findOneSchema = keySchema;
     const findManySchema = z.object({});
 
     return {
-        insert: authAction(insertSchema, async (input, ctx) => {
-            const data = insertSchema.parse(input);
+        insert: authAction(tableSchema, async (input, ctx) => {
+            const data = tableSchema.parse(input) as PgInsertValue<TTable>;
+            const key = (data as any)[tableKey.keyName];
             const rows = await ctx.db
                 .insert(table)
                 .values(data)
@@ -41,9 +38,9 @@ export function getCRUDActions<
             return rows[0];
         }),
 
-        update: authAction(updateSchema, async (input, ctx) => {
-            const data = updateSchema.safeParse(input);
-            const key = (data as any)[tableKey];
+        update: authAction(tableSchema, async (input, ctx) => {
+            const data = tableSchema.parse(input) as PgUpdateSetSource<TTable>;
+            const key = (data as any)[tableKey.keyName] as TPKeyType;
             const rows = await ctx.db
                 .update(table)
                 .set(data)
@@ -52,9 +49,8 @@ export function getCRUDActions<
             return rows[0];
         }),
 
-        upsert: authAction(insertSchema, async (input, ctx) => {
-            const data = insertSchema.parse(input);
-            const key = (data as any)[tableKey];
+        upsert: authAction(tableSchema, async (input, ctx) => {
+            const data = tableSchema.parse(input) as PgInsertValue<TTable>;
             const rows = await ctx.db
                 .insert(table)
                 .values(data)
@@ -68,21 +64,17 @@ export function getCRUDActions<
 
         delete: authAction(keySchema, async (input, ctx) => {
             const data = keySchema.parse(input);
-            const key = (data as any)[tableKey];
+            const key = (data as any)[tableKey.keyName] as TPKeyType;
             const rows = await ctx.db
                 .delete(table)
                 .where(eq(keyColumn, key))
                 .returning();
-            if (rows.length > 0) {
-                revalidateTag(`${tableName}/${key}`)
-                revalidateTag(tableName)
-            }
             return rows[0];
         }),
 
         findOne: action(findOneSchema, async (input, ctx) => {
             const data = findOneSchema.parse(input);
-            const key = (data as any)[tableKey];
+            const key = (data as any)[tableKey.keyName] as TPKeyType;
             const rows = await ctx.db
                 .select()
                 .from(table)

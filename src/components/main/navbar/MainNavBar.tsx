@@ -3,13 +3,13 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import { Navbar } from "./MainNavbarMenu";
 import { usePathname } from "next/navigation";
-import { socialSchema, telephoneNumberSchema } from "@/lib/db/schema/contacts";
 import { z } from "zod";
 import {
 	SocialNetworkLink,
 	SocialNetworkLinks,
 } from "../contacts/SocialNetworkLinks";
 import { cn } from "@/lib/utils";
+import { socialSchema, telephoneNumberSchema } from "@/lib/db/schema/keyValue/contacts";
 
 export function MainNavBar({
 	logo,

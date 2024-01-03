@@ -4,10 +4,10 @@ import { z } from "zod";
 import { authAction } from ".";
 import { getKeyValueAction, setKeyValueAction } from "../utils/actionUtils";
 import { getElapsedTime } from "../utils/timeUtils";
-import { deploymentSchema, REDEPLOY_TIME_MS } from "../db/schema/deployment";
+import { deploymentSchema, REDEPLOY_TIME_MS } from "../db/schema/keyValue/deployment";
 
 export const redeployAction = authAction(z.object({}), async () => {
-    const lastDeployment = await getKeyValueAction("deployment", deploymentSchema);
+    const { data: lastDeployment } = await getKeyValueAction("deployment", deploymentSchema);
     if (getElapsedTime(lastDeployment?.date) > REDEPLOY_TIME_MS) {
         await setKeyValueAction("deployment", deploymentSchema, {
             date: new Date().toISOString()

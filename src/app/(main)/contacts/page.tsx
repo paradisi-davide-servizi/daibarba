@@ -1,22 +1,21 @@
-import { Container } from "@/lib/components/Container";
-import React from "react";
-import { contactsSchema } from "@/lib/db/schema/contacts";
-import { ImageBanner } from "@/components/main/banner/ImageBanner";
 import GoogleMap from "@/components/main/GoogleMap";
+import { ImageBanner } from "@/components/main/banner/ImageBanner";
 import { EmailLinks } from "@/components/main/contacts/EmailLinks";
-import { TelephoneNumberLinks } from "@/components/main/contacts/TelephoneLinks";
 import { Locations } from "@/components/main/contacts/Locations";
+import { TelephoneNumberLinks } from "@/components/main/contacts/TelephoneLinks";
 import { Timetables } from "@/components/main/contacts/Timetable";
+import { Container } from "@/lib/components/Container";
+import { contactsSchema } from "@/lib/db/schema/keyValue/contacts";
 import { getKeyValueAction } from "@/lib/utils/actionUtils";
 
 export default async function ContactsPage() {
-	const contacts = await getKeyValueAction(
+	const { data: contacts } = await getKeyValueAction(
 		"contacts",
 		contactsSchema
 	);
 	return (
 		<main>
-			<ImageBanner imageSource={contacts?.bannerImage} size={"fixed"}>
+			<ImageBanner imageSource={contacts?.image} size={"fixed"}>
 				<div className="text-4xl md:text-7xl w-full h-full flex flex-row items-center justify-center text-white uppercase text-center tracking-widest">
 					contatti
 				</div>

@@ -1,6 +1,5 @@
-import { telephoneNumberSchema } from "@/lib/db/schema/contacts";
+import { telephoneNumberSchema } from "@/lib/db/schema/keyValue/contacts";
 import Link from "next/link";
-import React from "react";
 import { FaPhone } from "react-icons/fa";
 import { z } from "zod";
 
@@ -14,9 +13,9 @@ export function TelephoneNumberLink({
 			<FaPhone/>	
 			{telephoneNumber.label ? `${telephoneNumber.label}: ` : ""}
 			<Link
-				href={`tel:${telephoneNumber.prefix} ${telephoneNumber.number}`}
+				href={`tel:${telephoneNumber.number}`}
 				className=" underline">
-				{`${telephoneNumber.prefix} ${telephoneNumber.number}`}
+				{telephoneNumber.number}
 			</Link>
 		</p>
 	);

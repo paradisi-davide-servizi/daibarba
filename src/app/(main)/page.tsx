@@ -1,37 +1,29 @@
-import Image from "next/image";
-import { Container } from "@/lib/components/Container";
-import Link from "next/link";
-import StyledLink from "@/lib/components/StyledLink";
-import { cn } from "@/lib/utils";
-import { Tile } from "@/components/main/tile/Tile";
-import { siteSchema } from "@/lib/db/schema/site";
-import { menuSchema, menuTypeArray } from "@/lib/db/schema/menu";
-import { homeSchema } from "@/lib/db/schema/home";
-import "../globals.css";
-import { Timetables } from "@/components/main/contacts/Timetable";
-import { contactsSchema } from "@/lib/db/schema/contacts";
-import { ImageBanner } from "@/components/main/banner/ImageBanner";
-import Center from "@/lib/components/Center";
-import { Banner } from "@/components/main/banner/Banner";
 import GoogleMap from "@/components/main/GoogleMap";
-import { StorageImage } from "@/lib/components/StorageImage";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
-import { z } from "zod";
+import { ImageBanner } from "@/components/main/banner/ImageBanner";
+import { Timetables } from "@/components/main/contacts/Timetable";
 import { CallToActionTile } from "@/components/main/tile/CallToActionTile";
-import { FaCircle, FaDotCircle } from "react-icons/fa";
-import { getKeyValueAction } from "@/lib/utils/actionUtils";
 import { ReservationTile } from "@/components/main/tile/ReservationTile";
+import Center from "@/lib/components/Center";
+import { Container } from "@/lib/components/Container";
+import { StorageImage } from "@/lib/components/StorageImage";
+import { cn } from "@/lib/utils";
+import { getKeyValueAction } from "@/lib/utils/actionUtils";
+import { FaCircle } from "react-icons/fa";
+import { z } from "zod";
+import "../globals.css";
+import { contactsSchema } from "@/lib/db/schema/keyValue/contacts";
+import { homeSchema } from "@/lib/db/schema/keyValue/home";
+import { menuSchema, menuTypeArray } from "@/lib/db/schema/keyValue/menu";
+import { siteSchema } from "@/lib/db/schema/keyValue/site";
 
 function HeroSection({ home }: { home?: z.infer<typeof homeSchema> }) {
 	return (
 		<>
-			<ImageBanner size={"hero"} imageSource={home?.hero.image} priority gradient={"light"}>
+			<ImageBanner
+				priority
+				size={"hero"}
+				gradient={"light"}
+				imageSource={home?.heroSection.image}>
 				<Center>
 					{/* <div className=" flex flex-col gap-2 uppercase tracking-widest text-center items-center justify-center">
 						{home?.hero.prefix && (
@@ -51,9 +43,13 @@ function HeroSection({ home }: { home?: z.infer<typeof homeSchema> }) {
 						)}
 					</div> */}
 					<StorageImage
+						priority
+						width={500}
+						height={500}
+						quality={100}
 						image={{
 							storageName: "daibarba",
-							source: home?.hero.overlayImage,
+							source: home?.heroSection.overlayImage,
 						}}
 						className="w-5/6 h-5/6 object-contain"
 					/>
@@ -141,7 +137,7 @@ function ContactsSection({
 					)}>
 					contatti
 				</div>
-				<ImageBanner imageSource={contacts?.bannerImage}>
+				<ImageBanner imageSource={contacts?.image}>
 					<Container>
 						<div className="flex flex-col md:flex-row justify-start items-center gap-4">
 							<GoogleMap
@@ -163,15 +159,21 @@ function ContactsSection({
 }
 
 export default async function Home() {
-	const site = await getKeyValueAction("site", siteSchema);
-	const home = await getKeyValueAction("home", homeSchema);
-	const contacts = await getKeyValueAction("contacts", contactsSchema);
+	const { data: site } = await getKeyValueAction("site", siteSchema);
+	const { data: home } = await getKeyValueAction("home", homeSchema);
+	const { data: contacts } = await getKeyValueAction(
+		"contacts",
+		contactsSchema
+	);
 
 	const menus = await Promise.all(
-		menuTypeArray.map(async (menuKey) => ({
-			menuKey,
-			menu: await getKeyValueAction(menuKey, menuSchema),
-		}))
+		menuTypeArray.map(async (menuKey) => {
+			const { data: menu } = await getKeyValueAction(menuKey, menuSchema);
+			return {
+				menuKey,
+				menu,
+			};
+		})
 	);
 
 	return (

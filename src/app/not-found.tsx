@@ -1,11 +1,11 @@
 import { Container } from "@/lib/components/Container";
 import React from "react";
-import { siteSchema } from "@/lib/db/schema/site";
 import { StorageImage } from "@/lib/components/StorageImage";
 import { getKeyValueAction } from "@/lib/utils/actionUtils";
+import { siteSchema } from "@/lib/db/schema/keyValue/site";
 
 export default async function NotFound() {
-	const site = await getKeyValueAction("site", siteSchema);
+	const { data: site } = await getKeyValueAction("site", siteSchema);
 	return (
 		<main>
 			<Container className="min-h-screen justify-center">

@@ -1,4 +1,4 @@
-import { emailSchema } from "@/lib/db/schema/contacts";
+import { emailSchema } from "@/lib/db/schema/keyValue/contacts";
 import Link from "next/link";
 import React from "react";
 import { FaEnvelope } from "react-icons/fa";

@@ -1,4 +1,4 @@
-import { timetableSchema } from "@/lib/db/schema/contacts";
+import { timetableSchema } from "@/lib/db/schema/keyValue/contacts";
 import React from "react";
 import { z } from "zod";
 

@@ -1,10 +1,5 @@
-import SignInForm from "@/lib/components/auth/SignInForm";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
-import React from "react";
 import { Container } from "@/lib/components/Container";
-import StyledLink from "@/lib/components/StyledLink";
+import SignInForm from "@/lib/components/auth/SignInForm";
 
 export default function SignInPage() {
 	

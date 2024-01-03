@@ -1,8 +1,7 @@
-import React, { ComponentProps } from "react";
+import { FileObject } from "@supabase/storage-js";
 import Image from "next/image";
-import { StorageFile } from "../db/schema/file";
-import { callServerAction } from "../utils/actionUtils";
-import { findOneFileAction } from "../actions/file";
+import { ComponentProps } from "react";
+import { findStorageFile, getStorageFileMetadata } from "../utils/storageUtils";
 
 export function getPublicUrl(storageName: string, storagePath: string) {
 	return new URL(
@@ -16,6 +15,40 @@ type ImagePropsExcludeAlt = Omit<ImageProps, "alt">;
 type ImagePropsExcludeSrc = Omit<ImagePropsExcludeAlt, "src">;
 type StorageImageProps = ImagePropsExcludeSrc;
 
+async function getImageMetadata({ storageFile }: { storageFile: FileObject }) {
+	const fileMetadata = await getStorageFileMetadata({
+		storageFile,
+	});
+
+	const fileMetadataPayload = fileMetadata.data?.payload;
+	const blurData =
+		fileMetadataPayload?.fileType === "image"
+			? fileMetadataPayload.blurData
+			: undefined;
+
+	const alt =
+		fileMetadataPayload?.fileType === "image"
+			? fileMetadataPayload.alt
+			: storageFile.name;
+
+	const height =
+		fileMetadataPayload?.fileType === "image"
+			? fileMetadataPayload.height
+			: undefined;
+
+	const width =
+		fileMetadataPayload?.fileType === "image"
+			? fileMetadataPayload.width
+			: undefined;
+
+	return {
+		alt,
+		width,
+		height,
+		blurData,
+	};
+}
+
 export async function StorageImage({
 	alt,
 	fill,
@@ -28,28 +61,21 @@ export async function StorageImage({
 	alt?: string;
 	image?: {
 		storageName: string;
-		source?: StorageFile | string;
+		source?: string | null;
 	};
 } & StorageImageProps) {
-	let imageFile: StorageFile | undefined = undefined;
-
-	if (typeof image?.source === "string") {
-		imageFile = image
-			? await callServerAction(findOneFileAction, {
-					storagePath: image.source,
-			  })
-			: undefined;
-	} else {
-		imageFile = image?.source;
-	}
-
-	if (!image?.storageName || !imageFile?.storagePath)
+	if (!image?.storageName || !image.source) {
 		return <div>Immagine non trovata</div>;
-
-	const metadata = imageFile?.metadata;
-	if (metadata?.fileType !== "image") return <div>Immagine non trovata</div>;
-
-	const publicUrl = getPublicUrl(image.storageName, imageFile.storagePath);
+	}
+	const storageFile = await findStorageFile({
+		storageFilePath: image.source,
+		storage: image.storageName,
+	});
+	if (!storageFile.data) {
+		return <div>Immagine non trovata</div>;
+	}
+	const publicUrl = getPublicUrl(image.storageName, image.source);
+	const metadata = await getImageMetadata({ storageFile: storageFile.data });
 
 	if (fill && (!!height || !!width))
 		throw new Error("can't use fill when width or height are specified");

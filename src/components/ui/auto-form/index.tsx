@@ -76,7 +76,7 @@ function AutoForm<SchemaType extends z.AnyZodObject>({
 			let message;
 			if (error instanceof Error) message = error.message;
 			else if (error instanceof z.ZodError) message = error.message;
-			else message = String(error);
+			else message = JSON.stringify(error);
 			toast({
 				title: "Errore",
 				description: message,

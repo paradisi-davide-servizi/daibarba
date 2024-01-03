@@ -29,10 +29,12 @@ export default function AutoFormEnum({
 	} else {
 		const baseValues = (getBaseSchema(zodItem) as unknown as z.ZodEnum<any>)
 			._def.values;
-		if (!Array.isArray(baseValues)) {
-			values = Object.entries(baseValues);
-		} else {
-			values = baseValues.map((value) => [value, value]);
+		if (!!baseValues) {
+			if (!Array.isArray(baseValues)) {
+				values = Object.entries(baseValues);
+			} else {
+				values = baseValues.map((value) => [value, value]);
+			}
 		}
 	}
 	function findItem(value: any) {
@@ -52,7 +54,8 @@ export default function AutoFormEnum({
 						<SelectValue
 							className="w-full"
 							placeholder={
-								field.value || fieldConfigItem.inputProps?.placeholder 
+								field.value ||
+								fieldConfigItem.inputProps?.placeholder
 							}>
 							{field.value
 								? findItem(field.value)?.[1]

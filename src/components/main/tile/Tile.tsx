@@ -3,7 +3,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { PropsOfComponent } from "@/lib/utils/typeUtils";
 import { StorageImage } from "@/lib/components/StorageImage";
-import { StorageFile } from "@/lib/db/schema/file";
 import TileAnimation from "./TileAnimation";
 
 export function Tile({
@@ -19,7 +18,7 @@ export function Tile({
 	initialOpacity?: number;
 	image?: {
 		storageName: string;
-		source?: StorageFile | string;
+		source?: string;
 	};
 } & PropsOfComponent<typeof Link>) {
 	return (

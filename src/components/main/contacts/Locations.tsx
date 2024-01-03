@@ -1,4 +1,4 @@
-import { locationSchema } from "@/lib/db/schema/contacts";
+import { locationSchema } from "@/lib/db/schema/keyValue/contacts";
 import React from "react";
 import { z } from "zod";
 

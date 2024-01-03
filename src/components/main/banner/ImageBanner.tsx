@@ -1,5 +1,4 @@
 import { StorageImage } from "@/lib/components/StorageImage";
-import { StorageFile } from "@/lib/db/schema/file";
 import React, { ReactNode } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Banner, BannerVariants } from "./Banner";
@@ -35,7 +34,7 @@ export function ImageBanner({
 }: {
 	priority?: boolean;
 	children?: ReactNode;
-	imageSource?: StorageFile | string;
+	imageSource?: string;
 } & BannerVariants &
 	ImageBannerVariants) {
 	return (
@@ -43,8 +42,8 @@ export function ImageBanner({
 			<BannerParallax>
 				<StorageImage
 					alt="logo"
-					width={500}
-					height={500}
+					width={1280}
+					height={800}
 					priority={priority}
 					image={{
 						storageName: "daibarba",

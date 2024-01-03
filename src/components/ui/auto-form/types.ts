@@ -1,6 +1,7 @@
 import { ControllerRenderProps, FieldValues } from "react-hook-form";
 import * as z from "zod";
 import { INPUT_COMPONENTS } from "./config";
+import { ReactNode } from "react";
 
 export type FieldConfigItem = {
   description?: React.ReactNode;
@@ -10,17 +11,34 @@ export type FieldConfigItem = {
   fieldType?:
   | keyof typeof INPUT_COMPONENTS
   | React.FC<AutoFormInputComponentProps>;
-  values?: [string, string][]
+  values?: [string, string][];
+  hidden?: boolean;
   renderParent?: (props: {
     children: React.ReactNode;
   }) => React.ReactElement | null;
 };
 
+type ArrayConfigItemRenderer<SchemaType extends z.AnyZodObject> = {
+  renderType: "fieldList"
+} | {
+  renderType: "dialog",
+  trigger: (value: Partial<z.infer<SchemaType>>) => ReactNode
+}
+
+export type ArrayConfigItem<ArraySchemaType extends z.ZodArray<z.AnyZodObject>> = {
+  render?: ArrayConfigItemRenderer<ArraySchemaType["_def"]["type"]>
+  fieldConfig?: ArraySchemaType["_def"]["type"] extends z.AnyZodObject
+  ? FieldConfig<ArraySchemaType["_def"]["type"]>
+  : never
+}
+
 export type FieldConfig<SchemaType extends z.AnyZodObject> = {
   // If SchemaType.key is an object, create a nested FieldConfig, otherwise FieldConfigItem
-  [Key in keyof SchemaType["shape"]]?: SchemaType["shape"][Key] extends z.AnyZodObject ?
-  FieldConfig<SchemaType["shape"][Key]> :
-  FieldConfigItem;
+  [Key in keyof SchemaType["shape"]]?: SchemaType["shape"][Key] extends z.AnyZodObject
+  ? FieldConfig<SchemaType["shape"][Key]>
+  : SchemaType["shape"][Key] extends z.ZodArray<z.AnyZodObject>
+  ? ArrayConfigItem<SchemaType["shape"][Key]>
+  : FieldConfigItem;
 };
 
 /**

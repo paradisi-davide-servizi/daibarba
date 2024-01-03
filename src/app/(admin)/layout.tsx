@@ -1,7 +1,9 @@
+import { Container } from "@/lib/components/Container";
+
 export default function RootLayout({
 	children,
 }: {
 	children: React.ReactNode;
 }) {
-	return <div>{children}</div>;
+	return <Container>{children}</Container>;
 }

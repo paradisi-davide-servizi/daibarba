@@ -1,14 +1,11 @@
 "use client";
 
-import { ReactNode, useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { FaPhone } from "react-icons/fa";
+import { telephoneNumberSchema } from "@/lib/db/schema/keyValue/contacts";
 import { cn } from "@/lib/utils";
-import { usePathname } from "next/navigation";
-import { socialSchema, telephoneNumberSchema } from "@/lib/db/schema/contacts";
+import Link from "next/link";
+import { ReactNode } from "react";
+import { FaPhone } from "react-icons/fa";
 import { z } from "zod";
-import { StorageImage } from "@/lib/components/StorageImage";
 
 export function Navbar({
 	logo,
@@ -33,7 +30,7 @@ export function Navbar({
 			<div className=" flex flex-row items-center gap-x-4">
 				{telephone && (
 					<Link
-						href={`tel:${telephone.prefix}${telephone.number}`}
+						href={`tel:${telephone.number}`}
 						className="md:hidden">
 						<FaPhone size={25} />
 					</Link>

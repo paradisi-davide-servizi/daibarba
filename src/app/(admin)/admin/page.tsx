@@ -1,13 +1,13 @@
+import SettingsPage from "@/components/admin/SettingsPage";
 import { Container } from "@/lib/components/Container";
 import RedeployForm from "@/lib/components/RedeployForm";
 import StyledLink from "@/lib/components/StyledLink";
 import SignOutForm from "@/lib/components/auth/SignOutForm";
-import { menuTypeArray } from "@/lib/db/schema/menu";
-import React from "react";
+import { menuTypeArray } from "@/lib/db/schema/keyValue/menu";
 
 export default function Admin() {
 	return (
-		<Container>
+		<SettingsPage title={"Admin"} isRootPage={true}>
 			<div className=" flex flex-col gap-4">
 				<StyledLink href={"/admin/settings/site"}>
 					Impostazioni del sito
@@ -23,10 +23,9 @@ export default function Admin() {
 				<StyledLink href={"/admin/settings/contacts"}>
 					Contatti
 				</StyledLink>
-				<StyledLink href={"/admin/upload"}>Carica file</StyledLink>
 				<RedeployForm/>
 				<SignOutForm/>
 			</div>
-		</Container>
+		</SettingsPage>
 	);
 }

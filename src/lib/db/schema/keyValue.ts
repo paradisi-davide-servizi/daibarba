@@ -1,8 +1,5 @@
-import { json, varchar } from "drizzle-orm/pg-core";
-import { pgTable } from "drizzle-orm/pg-core";
+import { createInsertSchema } from "drizzle-zod";
+import { keyValueTable } from "../table/keyValue";
 
-export const keyValues = pgTable("keyValues", {
-    key: varchar("key").primaryKey(),
-    value: json("value")
-});
-
+export const keyValueSchema = createInsertSchema(keyValueTable);
+export type KeyValue = typeof keyValueTable.$inferSelect;

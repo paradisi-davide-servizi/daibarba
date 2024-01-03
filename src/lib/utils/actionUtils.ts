@@ -4,22 +4,52 @@ import { findOneKeyValueAction, upsertKeyValueAction } from "../actions/keyValue
 
 export async function callServerAction<Schema extends z.ZodTypeAny, Data>(serverAction: SafeAction<Schema, Data>, input: z.input<Schema>) {
     const result = await serverAction(input);
-    if (!!result?.serverError) {
-        throw result.serverError;
+    if (result.serverError) {
+        return {
+            data: undefined,
+            error: result.serverError
+        }
     }
-    if (!!result?.validationError) {
-        throw result.validationError;
+    if (result.validationError) {
+        return {
+            data: undefined,
+            error: result.validationError
+        }
     }
-    return result?.data;
+    return { data: result.data, error: undefined }
 }
 
 export async function getKeyValueAction<Schema extends z.ZodTypeAny>(key: string, schema: Schema) {
     const kvp = await callServerAction(findOneKeyValueAction, { key });
-    const value = schema.safeParse(kvp?.value);
-    return value.success ? value.data as z.infer<Schema> : undefined;
+    if (kvp.error) {
+        return {
+            data: undefined,
+            error: kvp.error
+        }
+    }
+    const value = schema.safeParse(kvp.data?.value);
+    if (!value.success) {
+        return {
+            data: undefined,
+            error: value.error
+        }
+    }
+    return {
+        data: value.data as z.infer<Schema>,
+        error: undefined,
+    }
 }
 
 export async function setKeyValueAction<Schema extends z.ZodTypeAny>(key: string, schema: Schema, value: z.input<Schema>) {
     const result = await callServerAction(upsertKeyValueAction, { key, value });
-    return result?.key ? true : false;
+    if (result.error) {
+        return {
+            set: false,
+            error: result.error,
+        }
+    }
+    return {
+        set:true,
+        error:undefined,
+    }
 }

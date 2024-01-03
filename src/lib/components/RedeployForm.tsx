@@ -1,14 +1,17 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { redeployAction } from "../actions/deployment";
-import { callServerAction } from "../utils/actionUtils";
-import { isExecutingAction, useAction, useKeyValue } from "../utils/actionHooks";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { LuLoader2 } from "react-icons/lu";
-import { getElapsedTime, msToTime } from "../utils/timeUtils";
 import { useInterval } from "usehooks-ts";
-import { deploymentSchema, REDEPLOY_TIME_MS } from "../db/schema/deployment";
+import { redeployAction } from "../actions/deployment";
+import {
+	isExecutingAction,
+	useKeyValue
+} from "../utils/actionHooks";
+import { callServerAction } from "../utils/actionUtils";
+import { getElapsedTime, msToTime } from "../utils/timeUtils";
+import { deploymentSchema, REDEPLOY_TIME_MS } from "../db/schema/keyValue/deployment";
 
 export default function RedeployForm() {
 	const lastDeployment = useKeyValue("deployment", deploymentSchema);
@@ -21,8 +24,8 @@ export default function RedeployForm() {
 	const [isDeploying, setIsDeploying] = useState(false);
 
 	useInterval(() => {
-		if ( lastDeployment.result.data) {
-			const elapsedTime = getElapsedTime( lastDeployment.result.data.date);
+		if (lastDeployment.data) {
+			const elapsedTime = getElapsedTime(lastDeployment.data.date);
 			setRemainingTime(REDEPLOY_TIME_MS - elapsedTime);
 			setElapsedTime(elapsedTime);
 		} else {
@@ -44,7 +47,7 @@ export default function RedeployForm() {
 				if (!isDeploying) {
 					setIsDeploying(true);
 					await callServerAction(redeployAction, {});
-					lastDeployment.execute();
+					lastDeployment.update();
 					setIsDeploying(false);
 				}
 			}}>

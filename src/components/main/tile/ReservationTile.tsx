@@ -1,7 +1,7 @@
 import React from "react";
 import { CallToActionTile, CallToActionVariants } from "./CallToActionTile";
 import { getKeyValueAction } from "@/lib/utils/actionUtils";
-import { siteSchema } from "@/lib/db/schema/site";
+import { siteSchema } from "@/lib/db/schema/keyValue/site";
 
 export async function ReservationTile({ text, href }: { href:string } & CallToActionVariants) {
 	const site = await getKeyValueAction("site", siteSchema);

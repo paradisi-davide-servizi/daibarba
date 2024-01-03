@@ -1,30 +1,29 @@
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Container }from "@/lib/components/Container";
-import { siteSchema } from "@/lib/db/schema/site";
-import { SiteForm } from "@/components/admin/SiteForm";
-import { callServerAction, getKeyValueAction } from "@/lib/utils/actionUtils";
-import { findManyFilesAction } from "@/lib/actions/file";
-import { unstable_noStore } from "next/cache";
+"use client";
 
-export const dynamic = 'force-dynamic'
-export default async function BusinessInfoPage() {
-	const values = await getKeyValueAction(
-		"site",
-		siteSchema
-	);
-	const images = await callServerAction(findManyFilesAction, {});
+import SettingsForm from "@/components/admin/SettingsForm";
+import SettingsPage from "@/components/admin/SettingsPage";
+import { siteSchema, siteFormConfig } from "@/lib/db/schema/keyValue/site";
+import {
+	isExecutingAction,
+	useAction,
+	useKeyValue,
+} from "@/lib/utils/actionHooks";
+import { setKeyValueAction } from "@/lib/utils/actionUtils";
+
+export default function BusinessInfoPage() {
+	const site = useKeyValue("site", siteSchema);
 	return (
-		<main>
-			<Container>
-				<Card>
-					<CardHeader>
-						<CardTitle>Impostazioni generali</CardTitle>
-					</CardHeader>
-					<CardContent>
-						<SiteForm values={values} images={images || []}/>
-					</CardContent>
-				</Card>
-			</Container>
-		</main>
+		<SettingsPage
+			title="Impostazioni generali"
+			isLoading={isExecutingAction(site)}>
+			<SettingsForm
+				values={site.data}
+				submitText="Salva impostazioni"
+				formConfig={siteFormConfig()}
+				onSubmit={async (input) => {
+					await setKeyValueAction("site", siteSchema, input);
+				}}
+			/>
+		</SettingsPage>
 	);
 }

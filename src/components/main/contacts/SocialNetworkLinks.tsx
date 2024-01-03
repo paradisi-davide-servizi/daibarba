@@ -1,4 +1,4 @@
-import { socialSchema } from "@/lib/db/schema/contacts";
+import { socialSchema } from "@/lib/db/schema/keyValue/contacts";
 import Link from "next/link";
 import { FaFacebookF, FaInstagram, FaTripadvisor } from "react-icons/fa";
 import { FaThreads, FaXTwitter } from "react-icons/fa6";

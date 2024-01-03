@@ -1,5 +1,4 @@
-import { locationSchema } from "@/lib/db/schema/contacts";
-import React from "react";
+import { locationSchema } from "@/lib/db/schema/keyValue/contacts";
 import { z } from "zod";
 
 export default function GoogleMap({

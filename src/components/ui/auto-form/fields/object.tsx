@@ -1,6 +1,6 @@
 import * as z from "zod";
-import { useForm } from "react-hook-form";
-import { FieldConfig, FieldConfigItem } from "../types";
+import { useForm, useFormContext } from "react-hook-form";
+import { ArrayConfigItem, FieldConfig, FieldConfigItem } from "../types";
 import {
 	Accordion,
 	AccordionContent,
@@ -13,7 +13,7 @@ import {
 	getBaseType,
 	zodToHtmlInputProps,
 } from "../utils";
-import { FormField } from "../../form";
+import { FormField, useFormField } from "../../form";
 import { DEFAULT_ZOD_HANDLERS, INPUT_COMPONENTS } from "../config";
 import AutoFormArray from "./array";
 
@@ -35,23 +35,19 @@ export default function AutoFormObject<
 	path?: string[];
 }) {
 	const { shape } = getBaseSchema<SchemaType>(schema);
-
 	return (
-		<Accordion
-			type="multiple"
-			className="space-y-5">
+		<Accordion type="multiple" className="space-y-5">
 			{Object.keys(shape).map((name) => {
 				const item = shape[name] as z.ZodAny;
 				const zodBaseType = getBaseType(item);
 				const itemName =
 					item._def.description ?? beautifyObjectName(name);
 				const key = [...path, name].join(".");
-
 				if (zodBaseType === "ZodObject") {
 					return (
 						<AccordionItem value={name} key={key}>
 							<AccordionTrigger>{itemName}</AccordionTrigger>
-							<AccordionContent className="p-2">
+							<AccordionContent className="p-1 md:p-2">
 								<AutoFormObject
 									schema={
 										item as unknown as z.ZodObject<any, any>
@@ -77,6 +73,11 @@ export default function AutoFormObject<
 							item={item as unknown as z.ZodArray<any>}
 							form={form}
 							path={[...path, name]}
+							fieldConfigItem={
+								(fieldConfig?.[name] ?? {}) as ArrayConfigItem<
+									z.infer<typeof item>
+								>
+							}
 						/>
 					);
 				}
@@ -88,6 +89,7 @@ export default function AutoFormObject<
 					zodInputProps.required ||
 					fieldConfigItem.inputProps?.required ||
 					false;
+				const isHidden = fieldConfigItem.hidden || false;
 
 				return (
 					<FormField
@@ -107,6 +109,7 @@ export default function AutoFormObject<
 							const ParentElement =
 								fieldConfigItem.renderParent ?? DefaultParent;
 
+							if (isHidden) return <></>;
 							return (
 								<ParentElement key={`${key}.parent`}>
 									<InputComponent
