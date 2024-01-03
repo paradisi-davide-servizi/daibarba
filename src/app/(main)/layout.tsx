@@ -18,6 +18,14 @@ export default async function RootLayout({
 		contactsSchema
 	);
 
+	if (!site || !contacts) {
+		return (
+			<div className="flex flex-col justify-center items-center text-5xl font-bold h-screen w-screen">
+				SITO IN MANUTENZIONE
+			</div>
+		);
+	}
+
 	const menus = await Promise.all(
 		menuTypeArray.map(async (menuKey) => {
 			const { data: menu } = await getKeyValueAction(menuKey, menuSchema);
@@ -30,6 +38,8 @@ export default async function RootLayout({
 
 	return (
 		<MainNavBar
+			site={site}
+			contacts={contacts}
 			logo={
 				<StorageImage
 					image={{ storageName: "daibarba", source: site?.logo }}
@@ -38,8 +48,6 @@ export default async function RootLayout({
 					className=" h-24 w-24 object-contain"
 				/>
 			}
-			socials={contacts?.socials}
-			telephone={contacts?.telephoneNumbers[0]}
 			navItems={
 				<>
 					<StyledLink href="/">Home</StyledLink>
@@ -59,21 +67,7 @@ export default async function RootLayout({
 				</>
 			}>
 			{children}
-			<MainFooter
-				siteName={site?.name}
-				emails={contacts?.emails}
-				socials={contacts?.socials}
-				locations={contacts?.locations}
-				telephoneNumbers={contacts?.telephoneNumbers}
-				siteLogo={
-					<StorageImage
-						image={{ storageName: "daibarba", source: site?.logo }}
-						height={200}
-						width={200}
-						className=" h-32 w-32"
-					/>
-				}
-			/>
+			<MainFooter site={site} contacts={contacts} />
 		</MainNavBar>
 	);
 }

@@ -146,10 +146,9 @@ function ContactsSection({
 								className="w-full h-96 md:w-[35vw]"
 								location={contacts?.locations?.[0]}
 							/>
-							<Timetables
-								className=" text-xl md:text-2xl gap-y-4	flex flex-col items-center justify-end text-white text-center"
-								timetables={contacts?.timeTables}
-							/>
+							<div className=" text-xl md:text-2xl gap-y-4	flex flex-col items-center justify-end text-white text-center">
+								<Timetables timetables={contacts?.timeTables} />
+							</div>
 						</div>
 					</Container>
 				</ImageBanner>

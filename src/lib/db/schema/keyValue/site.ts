@@ -16,6 +16,12 @@ export const siteSchema = z.object({
     reservationLink: z.string()
         .optional()
         .describe("Link di prenotazione"),
+    privacyNormsLink: z.string()
+        .optional()
+        .describe("Link alla normativa sulla privacy"),
+    cookiePolicyLink: z.string()
+        .optional()
+        .describe("Link alla policy dei cookies"),
 }).describe("Site")
 
 export const siteFormConfig = createFormConfig(siteSchema, (returnConfig) => {

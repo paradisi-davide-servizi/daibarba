@@ -35,25 +35,16 @@ export function SocialNetworkLink({
 export function SocialNetworkLinks({
 	socials,
 	iconSize,
-	className,
 }: {
 	iconSize: number;
-	className?: string;
 	socials?: z.infer<typeof socialSchema>[];
 }) {
 	return (
 		<>
-			{(socials?.length || 0) > 0 && (
-				<div className={className}>
-					{socials?.map((s, i) => (
-						<SocialNetworkLink
-							key={i}
-							social={s}
-							iconSize={iconSize}
-						/>
-					))}
-				</div>
-			)}
+			{(socials?.length || 0) > 0 &&
+				socials?.map((s, i) => (
+					<SocialNetworkLink key={i} social={s} iconSize={iconSize} />
+				))}
 		</>
 	);
 }

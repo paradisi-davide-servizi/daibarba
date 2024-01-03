@@ -1,65 +1,63 @@
+"use client";
+
 import { Container } from "@/lib/components/Container";
-import { ReactNode } from "react";
 import { z } from "zod";
 
+import StyledLink from "@/lib/components/StyledLink";
+import { contactsSchema } from "@/lib/db/schema/keyValue/contacts";
+import { siteSchema } from "@/lib/db/schema/keyValue/site";
 import { EmailLinks } from "./contacts/EmailLinks";
 import { Locations } from "./contacts/Locations";
-import {
-	SocialNetworkLinks
-} from "./contacts/SocialNetworkLinks";
+import { SocialNetworkLinks } from "./contacts/SocialNetworkLinks";
 import { TelephoneNumberLinks } from "./contacts/TelephoneLinks";
-import { emailSchema, socialSchema, locationSchema, telephoneNumberSchema } from "@/lib/db/schema/keyValue/contacts";
 
 export function MainFooter({
-	emails,
-	socials,
-	siteLogo,
-	siteName,
-	locations,
-	telephoneNumbers,
+	site,
+	contacts,
 }: {
-	siteLogo?: ReactNode;
-	siteName?: string;
-	emails?: z.infer<typeof emailSchema>[];
-	socials?: z.infer<typeof socialSchema>[];
-	locations?: z.infer<typeof locationSchema>[];
-	telephoneNumbers?: z.infer<typeof telephoneNumberSchema>[];
+	site: z.infer<typeof siteSchema>;
+	contacts: z.infer<typeof contactsSchema>;
 }) {
 	return (
 		<Container className="bg-stone-900 text-white py-8">
-			<div className="flex flex-col gap-y-8">
-				<div className=" flex flex-col md:flex-row w-full md:justify-between items-center md:items-start gap-y-8">
-					<div className=" flex flex-col items-center">
-						<div className=" font-semibold text-xl uppercase text-accent-foreground">
-							{siteName}
-						</div>
-						<Locations
-							locations={locations}
-							className="flex flex-col gap-y-1 items-center md:items-start max-w-xs text-center"
-						/>
+			<div className=" flex flex-col w-full gap-4">
+				<div className=" flex flex-col md:flex-row w-full items-center md:items-start justify-between text-center gap-2">
+					<div className=" flex-shrink-0 font-semibold text-xl uppercase text-accent-foreground">
+						{site.name}
 					</div>
-					<div className=" text-center flex flex-col items-center justify-center gap-y-1">
-						<div className=" font-semibold text-xl uppercase  text-accent-foreground">
-							Contattaci
-						</div>
-						<TelephoneNumberLinks
-							telephoneNumbers={telephoneNumbers}
-							className="flex flex-col gap-y-1 items-center md:items-start text-center"
-						/>
-						<EmailLinks
-							emails={emails}
-							className="flex flex-col gap-y-1 items-center md:items-start text-center"
-						/>
-						<SocialNetworkLinks
-							iconSize={25}
-							socials={socials}
-							className=" flex flex-row gap-x-2 self-center pt-3"
-						/>
+					<div className="flex flex-col md:flex-row justify-between gap-2 md:text-right flex-1 md:pl-8">
+						<Locations locations={contacts.locations} />
 					</div>
-					{siteLogo}
 				</div>
-				<div className=" flex flex-col items-center text-sm text-stone-400">
-					DAI BARBA © 2024 P. IVA 12744940961				
+				<div className=" text-center flex flex-col md:flex-row justify-between  items-center gap-2">
+					<div className=" font-semibold text-xl uppercase  text-accent-foreground">
+						Contattaci
+					</div>
+					<div className="flex flex-col md:flex-row justify-between items-center gap-2 flex-1 md:pl-32">
+						<TelephoneNumberLinks
+							telephoneNumbers={contacts.telephoneNumbers}
+						/>
+						<EmailLinks emails={contacts.emails} />
+					</div>
+				</div>
+				<div className=" flex flex-col md:flex-row justify-between items-center text-sm text-stone-400 gap-2">
+					DAI BARBA © 2024 P. IVA 12744940961
+					{site.privacyNormsLink && (
+						<StyledLink href={site.privacyNormsLink}>
+							Normative sulla privacy
+						</StyledLink>
+					)}
+					{site.cookiePolicyLink && (
+						<StyledLink href={site.cookiePolicyLink}>
+							Policy dei cookies
+						</StyledLink>
+					)}
+				</div>
+				<div className="flex flex-row gap-4 w-full items-center justify-center">
+					<SocialNetworkLinks
+						iconSize={25}
+						socials={contacts.socials}
+					/>
 				</div>
 			</div>
 		</Container>

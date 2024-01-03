@@ -12,7 +12,9 @@ export function Timetable({
 			<div>{timetable.label}:</div>
 			<div className=" flex flex-row gap-x-2">
 				<div className=" font-semibold">
-					{timetable.timeIntervals.map(i => `${i.startTime}-${i.endTime}`).join(" | ")}
+					{timetable.timeIntervals
+						.map((i) => `${i.startTime}-${i.endTime}`)
+						.join(" | ")}
 				</div>
 			</div>
 		</>
@@ -21,20 +23,13 @@ export function Timetable({
 
 export function Timetables({
 	timetables,
-	className,
 }: {
 	timetables?: z.infer<typeof timetableSchema>[];
-	className?: string;
 }) {
 	return (
 		<>
-			{(timetables?.length || 0) > 0 && (
-				<div className={className}>
-					{timetables?.map((t, i) => (
-						<Timetable key={i} timetable={t} />
-					))}
-				</div>
-			)}
+			{(timetables?.length || 0) > 0 &&
+				timetables?.map((t, i) => <Timetable key={i} timetable={t} />)}
 		</>
 	);
 }
