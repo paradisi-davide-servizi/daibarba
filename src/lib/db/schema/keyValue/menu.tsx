@@ -101,6 +101,7 @@ export type MenuType = (typeof menuTypeArray)[number];
 
 export const menuSchema = z.object({
 	title: z.string().describe("Titolo del menù"),
+	menuDate: z.string().optional().describe("Data del menù"),
 
 	description: z.string().describe("Descrizione"),
 

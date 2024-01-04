@@ -101,7 +101,18 @@ function MenuSection({
 							)}>
 							<div className="flex flex-col md:w-[65%] relative text-white gap-4 md:gap-8 w-full h-full">
 								<div className=" text-justify text-md md:text-lg flex-1">
-									<div className=" flex flex-col items-center justify-center h-full">
+									<div
+										className={cn(
+											"flex flex-col justify-center h-full gap-2 text-justify",
+											align === "start"
+												? "items-start"
+												: "items-end"
+										)}>
+										{menu?.menuDate && (
+											<div className=" text-xl font-semibold">
+												{menu.menuDate}
+											</div>
+										)}
 										{menu?.description}
 									</div>
 								</div>

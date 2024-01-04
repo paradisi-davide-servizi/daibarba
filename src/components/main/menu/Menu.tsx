@@ -82,6 +82,9 @@ function MenuCategory({
 export default function Menu({ menu }: { menu?: z.infer<typeof menuSchema> }) {
 	return (
 		<div className="flex flex-col py-8 gap-8">
+			{menu?.menuDate && (
+				<div className=" text-xl font-semibold">{menu.menuDate}</div>
+			)}
 			{menu?.menuImage && (
 				<StorageImage
 					priority
