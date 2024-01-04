@@ -101,13 +101,12 @@ export type MenuType = (typeof menuTypeArray)[number];
 
 export const menuSchema = z.object({
 	title: z.string().describe("Titolo del menù"),
+	description: z.string().describe("Descrizione"),
+	callToAction: z.string().describe("Testo della call to action"),
+	reservationLink: z.string().url().describe("Link di prenotazione"),
+	
 	menuDate: z.string().optional().describe("Data del menù"),
 
-	description: z.string().describe("Descrizione"),
-
-	callToAction: z.string().describe("Testo della call to action"),
-
-	reservationLink: z.string().url().describe("Link di prenotazione"),
 	directLinkToReservation: z
 		.boolean()
 		.default(false)

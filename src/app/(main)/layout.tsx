@@ -53,8 +53,9 @@ export default async function RootLayout({
 					<StyledLink href="/">Home</StyledLink>
 					{menus
 						.filter(({ menu }) => menu?.isVisible)
+						.filter(({ menu }) => !menu?.directLinkToReservation)
 						.map(({ menu, menuKey }) => (
-							<StyledLink key={menuKey} href={`/menu/${menuKey}`}>
+							<StyledLink key={menuKey} href={`/menu/${menuKey}`} className="p-4">
 								{menu?.title}
 							</StyledLink>
 						))}
