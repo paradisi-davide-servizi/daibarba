@@ -13,7 +13,11 @@ import { z } from "zod";
 import "../globals.css";
 import { contactsSchema } from "@/lib/db/schema/keyValue/contacts";
 import { homeSchema } from "@/lib/db/schema/keyValue/home";
-import { menuSchema, menuTypeArray } from "@/lib/db/schema/keyValue/menu";
+import {
+	MenuType,
+	menuSchema,
+	menuTypeArray,
+} from "@/lib/db/schema/keyValue/menu";
 import { siteSchema } from "@/lib/db/schema/keyValue/site";
 
 function HeroSection({ home }: { home?: z.infer<typeof homeSchema> }) {
@@ -62,11 +66,11 @@ function HeroSection({ home }: { home?: z.infer<typeof homeSchema> }) {
 function MenuSection({
 	menu,
 	align,
-	href,
+	menuKey,
 }: {
-	menu?: z.infer<typeof menuSchema>;
 	align: "start" | "end";
-	href: string;
+	menu?: z.infer<typeof menuSchema>;
+	menuKey: MenuType;
 }) {
 	return (
 		<>
@@ -102,7 +106,11 @@ function MenuSection({
 									</div>
 								</div>
 								<CallToActionTile
-									href={href}
+									href={
+										menu?.directLinkToReservation
+											? menu.reservationLink
+											: `menu/${menuKey}`
+									}
 									label={menu?.callToAction || ""}
 								/>
 							</div>
@@ -187,9 +195,9 @@ export default async function Home() {
 					.filter(({ menu }) => menu?.isVisible)
 					.map(({ menu, menuKey }, i) => (
 						<MenuSection
-							key={menuKey}
 							menu={menu}
-							href={`menu/${menuKey}`}
+							key={menuKey}
+							menuKey={menuKey}
 							align={i % 2 === 0 ? "start" : "end"}
 						/>
 					))}

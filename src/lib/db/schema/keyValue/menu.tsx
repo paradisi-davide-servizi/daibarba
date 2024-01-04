@@ -91,9 +91,11 @@ export const menuCategorySchema = z
 
 export const menuTypeArray = [
 	"special",
-	"today",
-	"a-la-carte",
-	"beverages",
+	"menu-del-giorno",
+	"alla-carta",
+	"bevande",
+	"promozioni",
+	"fuori-menu",
 ] as const;
 export type MenuType = (typeof menuTypeArray)[number];
 
@@ -105,6 +107,11 @@ export const menuSchema = z.object({
 	callToAction: z.string().describe("Testo della call to action"),
 
 	reservationLink: z.string().url().describe("Link di prenotazione"),
+	directLinkToReservation: z
+		.boolean()
+		.default(false)
+		.optional()
+		.describe("Vai direttamente al link di prenotazione"),
 
 	bannerImage: z
 		.string()
