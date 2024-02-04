@@ -5,7 +5,7 @@ import postgres from "postgres";
 
 const runMigrate = async () => {
 
-    const connection = postgres("postgresql://postgres:iBwgwMmVcmqqnE17@db.uwsgvqbciuqqzknchcbe.supabase.co:5432/postgres", { max: 1 });
+    const connection = postgres("postgres://postgres.uwsgvqbciuqqzknchcbe:iBwgwMmVcmqqnE17@aws-0-eu-central-1.pooler.supabase.com:5432/postgres", { max: 1 });
     const db = drizzle(connection);
 
     console.log("⏳ Running migrations...");
