@@ -47,7 +47,7 @@ function MenuEntry({
 				)}
 			</div>
 			{(menuEntry.price || 0) > 0 && (
-				<p className=" font-semibold ">{menuEntry.price}€</p>
+				<p className=" font-semibold">{`${Intl.NumberFormat("it-IT", { style:"currency", currency:"EUR"}).format(menuEntry.price || 0)}`}</p>
 			)}
 		</div>
 	);

@@ -26,7 +26,7 @@ function HeroSection({ home }: { home?: z.infer<typeof homeSchema> }) {
 			<ImageBanner
 				priority
 				size={"hero"}
-				gradient={"light"}
+				gradient={"brighten"}
 				imageSource={home?.heroSection.image}>
 				<Center>
 					{/* <div className=" flex flex-col gap-2 uppercase tracking-widest text-center items-center justify-center">

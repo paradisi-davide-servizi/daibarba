@@ -8,7 +8,7 @@ const bannerVariants = cva("relative w-full overflow-hidden shadow-lg flex flex-
 			default: "min-h-[20rem]",
 			fixed: "h-[20rem]",
 			fullScreen: "h-[100vh]",
-			hero: "md:h-[calc(100vh-12rem)] h-[calc(100vh-8rem)]",
+			hero: "md:h-[calc(100vh-14rem)] h-[calc(100vh-16rem)]",
 		},
 	},
 	defaultVariants: {

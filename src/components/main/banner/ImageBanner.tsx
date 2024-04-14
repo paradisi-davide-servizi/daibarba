@@ -12,6 +12,7 @@ export const imageBannerVariants = cva(
 			gradient: {
 				default: "bg-[#000000aa]",
 				light: "bg-[#00000022]",
+				brighten: "bg-[#ffffff77]",
 				to_r: "bg-[#000000aa] md:bg-transparent md:bg-gradient-to-r md:from-[#000000bb] md:from-65%",
 				to_l: "bg-[#000000aa] md:bg-transparent md:bg-gradient-to-l md:from-[#000000bb] md:from-65%",
 				none:"bg-transparent",
