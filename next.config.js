@@ -7,6 +7,7 @@ const nextConfig = {
 		NODEMAILER_PASSWORD: process.env.NODEMAILER_PASSWORD,
 	},
 	images: {
+		minimumCacheTTL: 300,
 		remotePatterns: [
 			{
 				port: "",

@@ -48,9 +48,8 @@ function HeroSection({ home }: { home?: z.infer<typeof homeSchema> }) {
 					</div> */}
 					<StorageImage
 						priority
-						width={500}
-						height={500}
-						quality={100}
+						width={1600}
+						height={800}
 						image={{
 							storageName: "daibarba",
 							source: home?.heroSection.overlayImage,
